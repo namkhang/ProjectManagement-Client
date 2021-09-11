@@ -1,0 +1,129 @@
+/* .App {
+  text-align: center;
+}
+
+.App-logo {
+  height: 40vmin;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-header {
+  background-color: #282c34;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+} */
+.Avt-User{
+    width: 50px;
+    height: 50px;
+  }
+  li.nav-item {
+    font-size: 20px;
+  }
+  .Mess{
+    position: relative;
+  }
+  .Notifi{
+    position: relative;
+  }
+  .soNotifi {
+    position: absolute;
+    top: -3px;
+    border-radius: 50%;
+    max-height: 20px;
+    width: 20px;
+    background-color: red;
+    color: white;
+    font-weight: 700;
+    left: 9px;
+    font-size: 13px;
+    padding-left: 6px;
+     
+  }
+  .soMess {
+    position: absolute;
+    top: -3px;
+    border-radius: 50%;
+    max-height: 20px;
+    width: 20px;
+    background-color: red;
+    color: white;
+    font-weight: 700;
+    left: 9px;
+    font-size: 13px;
+    padding-left: 6px;
+     
+  }
+  .User-name{
+    font-weight: 600;
+  }
+  .User-name__active{
+  color: #94969a  ;
+  font-weight: 400;
+  }
+  .Comment-Like{
+  color: #94969a !important;
+  font-weight: 600;
+  }
+  .Comment-Like:hover {
+    color: red !important;  
+    font-weight: 600;
+    background-color: #f2f3f5;
+    }
+    .Comment-Like:hover.fa.fa-heart-o{
+      color: red !important;
+      }
+  .Comment-cmt{
+  color: #94969a !important;
+  font-weight: 600;
+  }
+  .Comment-cmt:hover {
+    color: #94969a !important;
+    font-weight: 600;
+    background-color: #f2f3f5;
+    }
+  .Comment-share{
+  color: #94969a !important;
+  font-weight: 600;
+  }
+  .Comment-share:hover {
+    color: #94969a !important;
+    font-weight: 600;
+    background-color: #f2f3f5;
+    }
+    .input-cmt{
+      box-shadow: none !important;
+      outline: none;
+    }
+    .btn-sent{
+      background-color: #1DA1F2;
+      color: white !important;
+    }
+    .scroll{
+      height: 300px;
+      overflow: auto;
+      width: 100%;
+    }
