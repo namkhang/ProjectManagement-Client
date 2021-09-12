@@ -6,13 +6,26 @@ import axios from 'axios';
 
 function BaiDang(props) {
     const [post , setPost] = useState([])
+    const [postID , setPostID] = useState("")
+
     useEffect(()=>{
         async function getData(){
-            let response = await axios.get("http://localhost:5000/user");
+            let response = await axios.get("http://localhost:5000/user/get_all_post");
             setPost(response.data.dataPost)
         }
         getData()
     } , [])
+
+   async function Comment(postID){
+       let body = {
+        postID ,
+        userID_comment : "abcxyz" , 
+        content_comment : document.getElementById(postID).value
+       }
+        let response = await axios.post("http://localhost:5000/user/create_post_comment" , body)
+        setPost(response.data.newPost)
+        document.getElementById(postID).value = ""
+    }
 
     return (
         <div>
@@ -88,53 +101,33 @@ function BaiDang(props) {
     <div>
         {/* inputcmt */}
         <div className="collapse mt-2 mb-3" id="collapseExample">
-            <input type="text" className="form-control input-cmt mb-2" />
-            <button type="submit" class="btn btn-sent my-1 float-right mb-4"><i class="fa fa-paper-plane"></i></button> <br></br><br></br>  <br></br>
+            <input type="text" id={i._id} className="form-control input-cmt mb-2" />
+            <button type="submit" onClick={() => Comment(i._id)} class="btn btn-sent my-1 float-right mb-4"><i class="fa fa-paper-plane"></i></button> <br></br><br></br>  <br></br>
             {/* endinputcmt */}
             <div className="scroll p-3">
+                {i.post_comment.map(item => 
 
-                <div className="card mb-3" style={{ maxWidth: '540px' }}>
-                    <div className="row g-0">
-                        <div className="col-2 pt-3 ml-2">
-                            <img src="https://scontent.fdad1-3.fna.fbcdn.net/v/t1.6435-9/105037693_296643991531524_854097983083770554_n.jpg?_nc_cat=110&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=SnbAWyr8JO4AX_32XC8&_nc_ht=scontent.fdad1-3.fna&oh=d1c0a7de5268b6b80f0125fb03ef2764&oe=6144EC36" className="img-fluid rounded-start rounded-circle" alt="..." />
-                        </div>
-                        <div className="col-9">
-                            <div className="card-body p-0">
-                                <h5 className="card-title NameUser pt-2 mb-1">Khang</h5>
-                                <p className="card-text Cmt_Description mb-1">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                <p className="card-text"><small className="text-muted">Last updated 3 mins ago</small></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="card mb-3" style={{ maxWidth: '540px' }}>
-                    <div className="row g-0">
-                        <div className="col-2 pt-3 ml-2">
-                            <img src="https://scontent.fdad1-3.fna.fbcdn.net/v/t1.6435-9/105037693_296643991531524_854097983083770554_n.jpg?_nc_cat=110&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=SnbAWyr8JO4AX_32XC8&_nc_ht=scontent.fdad1-3.fna&oh=d1c0a7de5268b6b80f0125fb03ef2764&oe=6144EC36" className="img-fluid rounded-start rounded-circle" alt="..." />
-                        </div>
-                        <div className="col-9">
-                            <div className="card-body p-0">
-                                <h5 className="card-title NameUser pt-2 mb-1">Khang</h5>
-                                <p className="card-text Cmt_Description mb-1">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                <p className="card-text"><small className="text-muted">Last updated 3 mins ago</small></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div className="card mb-3" style={{ maxWidth: '540px' }}>
-                    <div className="row g-0">
-                        <div className="col-2 pt-3 ml-2">
-                            <img src="https://scontent.fdad1-3.fna.fbcdn.net/v/t1.6435-9/105037693_296643991531524_854097983083770554_n.jpg?_nc_cat=110&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=SnbAWyr8JO4AX_32XC8&_nc_ht=scontent.fdad1-3.fna&oh=d1c0a7de5268b6b80f0125fb03ef2764&oe=6144EC36" className="img-fluid rounded-start rounded-circle" alt="..." />
-                        </div>
-                        <div className="col-9">
-                            <div className="card-body p-0">
-                                <h5 className="card-title NameUser pt-2 mb-1">Khang</h5>
-                                <p className="card-text Cmt_Description mb-1">This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-                                <p className="card-text"><small className="text-muted">Last updated 3 mins ago</small></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                     <div className="card mb-3" style={{ maxWidth: '540px' }}>
+                     <div className="row g-0">
+                         <div className="col-2 pt-3 ml-2">
+                             <img src={item.image_comment} className="img-fluid rounded-start rounded-circle" alt="..." />
+                         </div>
+                         <div className="col-9">
+                             <div className="card-body p-0">
+                                 <h5 className="card-title NameUser pt-2 mb-1">{item.userName_commnet}</h5>
+                                 <p className="card-text Cmt_Description mb-1">{item.content_comment}</p>
+                                 <p className="card-text"><small className="text-muted">{item.createAt_comment}</small></p>
+                             </div>
+                         </div>
+                     </div>
+                 </div>
+
+                    )}
+              
+          
+           
+
+
             </div>
         </div>
         {/* endcmt */}
