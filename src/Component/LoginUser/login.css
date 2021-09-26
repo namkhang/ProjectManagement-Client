@@ -1,63 +1,71 @@
-
 .option {
-    height: 115px;
-    width: 450px;
-    margin-left: 45px;
-    padding-top: 27px;
-    float: left;
-    font-size: 11px;
-  }
-  .list_option{
-    display: inline-block;
-    margin: 20px 56px 20px 5px;
-    font-weight: 600;
-    color: #fff;
-  }
-  .icon{
-    width: 20px;
-  }
+  height: 115px;
+  width: 450px;
+  margin-left: 45px;
+  padding-top: 27px;
+  float: left;
+  font-size: 11px;
+ }
+ .list_option {
+  display: inline-block;
+  margin: 20px 56px 20px 5px;
+  font-weight: 600;
+  color: #fff;
+ }
+ .icon {
+  width: 20px;
+ }
   
-  #form {
-    margin-left: 495px;
-    width: 420px;
-    margin-top: 4px;
-    margin-bottom: 4px;
-    height: 104px;
-    padding-top: 50px;
-    position: relative;
-  }
-  #form .username {
-    color: #930409;
-  }
-  #form .pass {
-    color: #930409;
-  }
-  #form div span {
-    height: 26px;
-    line-height: 26px;
-    width: 95px;
-    padding: 3px 11px;
-    display: block;
-    float: left;
-    font-size: 12px;
-  }
-  #form .txt {
-    border: 1px solid #860207;
-    border-radius: 6px;
-    color: #333;
-    width: 266px;
-    height: 21px;
-    padding-left: 10px;
-  }
-  .btn_login{
-  
-  margin:5px 30px;
-  background-color:rgb(90, 2, 2);
+ #form {
+  margin-left: 495px;
+  width: 420px;
+  margin-top: 4px;
+  margin-bottom: 4px;
+  height: 104px;
+  padding-top: 50px;
+  position: relative;
+ }
+ #form .username {
+  color: #930409;
+ }
+ #form .pass {
+  color: #930409;
+  float: left;
+  margin: 6px 0px;
+ }
+ #form div span {
+  height: 26px;
+  line-height: 26px;
+  width: 105px;
+  padding: 3px 11px;
+  display: block;
+  float: left;
+  font-size: 12px;
+ }
+ #form .txt {
+  border: 1px solid #860207;
+  border-radius: 6px;
+  color: #333;
+  width: 266px;
+  height: 21px;
+  padding-left: 10px;
+ }
+ .btn_login {
+  margin: 0px 19px;
+  background-color: rgb(90, 2, 2);
   border: none;
   color: #fff;
   padding: 4px;
   border-radius: 5px;
-  }
+ }
+ .Button {
+  font-weight: 600;
+  color: #fff;
+  font-size: 12px;
+  width: 388px;
+  margin-top: 12px;
+  padding-left: 10px;
+ }
   
-  
-  
+ 
+ 

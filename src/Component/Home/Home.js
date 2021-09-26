@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react';
 
-import Nav from './Nav'
+import Navbar from '../Layouts/Navbar';
 import './Home.css'
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-function BaiDang(props) {
+function Home(props) {
     const [post , setPost] = useState([])
     const userID = Cookies.get("userID")
-    const token = localStorage.getItem("token")
+    const token = localStorage.getItem("token") ? localStorage.getItem("token") : ""
+    const {fullname : userName_commnent} = JSON.parse(localStorage.getItem("userData")) ? JSON.parse(localStorage.getItem("userData")) : {fullname : ""}
 
     useEffect(()=>{
         async function getData(){
@@ -23,7 +24,8 @@ function BaiDang(props) {
    async function Comment(postID){
        let body = {
         postID ,
-        userID_comment : userID , 
+        userID_comment : userID ,
+        userName_commnent , 
         content_comment : document.getElementById(postID).value
        }
         let response = await axios.post("http://localhost:5000/user/create_post_comment" , body , {headers :{
@@ -46,9 +48,9 @@ function BaiDang(props) {
     if(userID){
         return (
             <div>
-            <Nav />
+            <Navbar/>
             <div className="container">
-    
+           
             {post.map(i => 
     
     <div style={{marginTop : "30px"}} className="row">
@@ -174,4 +176,4 @@ function BaiDang(props) {
    
 }
 
-export default BaiDang;
+export default Home;
