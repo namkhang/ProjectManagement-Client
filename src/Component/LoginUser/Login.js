@@ -24,7 +24,7 @@ function Login(props) {
                 else {
                     response.data.role === "student" ? Cookies.set("userID", response.data.userData._id, { expires: 1 / 24 }) : Cookies.set("mentorID", response.data.userData._id, { expires: 1 / 24 })
                     localStorage.setItem("token", response.data.token)
-                    localStorage.setItem("userData", JSON.stringify(response.data.userData))
+                    response.data.role === "student" ? localStorage.setItem("userData", JSON.stringify(response.data.userData)) : localStorage.setItem("mentorData", JSON.stringify(response.data.userData))
                     response.data.role === "student" ? window.location.href = "/" : window.location.href = "/mentor"
                 }
             }

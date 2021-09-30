@@ -8,6 +8,8 @@ import MyReport from "./Component/Reports/MyReport"
 import CreateReport from './Component/Reports/CreateReport';
 import './assets/css/styles.css';
 import HomeForMentor from './Component/Home/HomeForMentor';
+import ChatPage from './Component/Chat-page/ChatPage';
+import ChatPageForMentor from './Component/Chat-page/ChatPageForMentor';
 
 function App() {
   return (
@@ -19,6 +21,8 @@ function App() {
         <Route exact path="/mentor/create-report-template" component={CreateReportTemplate} />
         <Route exact path="/my-report" component={MyReport} />
         <Route exact path="/create-report" component={CreateReport} />
+        <Route exact path="/chat" component={ChatPage} />
+        <Route exact path="/mentor/chat" component={ChatPageForMentor} />
       </Switch>
     </div>
   );
