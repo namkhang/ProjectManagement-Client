@@ -13,6 +13,7 @@ const ChatPageForMentor = (props) => {
   const userData = localStorage.getItem("mentorData") ? JSON.parse(localStorage.getItem("mentorData")) : ""
   const [listChats , setListChats] = useState([])
   const [chats , setChats] = useState([])
+  const [receiver , setReceiver] = useState([])
 
  
 
@@ -22,6 +23,12 @@ const ChatPageForMentor = (props) => {
             let response = await axios.get(`http://localhost:5000/user/list-chat/${Cookies.get("mentorID")}` , {headers : {
               "Authorization" : `Bearer ${localStorage.getItem("token")}`
             }})
+            let receiverInformation = []
+            response.data.dataChatForUser.forEach((i) => {
+              let result = i.chat.filter(x => x.userID_chat !== Cookies.get("mentorID"))
+              receiverInformation.push(result[0])
+            })
+            setReceiver(receiverInformation)
             setListChats(response.data.dataChatForUser)
       }
       getData()
@@ -40,22 +47,74 @@ const ChatPageForMentor = (props) => {
 
   function enterChat(event){
     if(event.keyCode === 13){
-    socket.emit("chat" , {
-      userID_chat : Cookies.get("mentorID"),
-      fullname_chat : userData.fullname,
-      image : userData.image ,
-      chat_content : event.target.value
-    })
-    event.target.value = ""
-    socket.on("chat-done" , (data) => {
-      setChats(data)
-    })
-    socket.on("update-list-chat" , (data) => {
-      setListChats(data)
-    })
+      if(chats.length !== 0){
+        socket.emit("chat" , {
+          userID_chat : Cookies.get("mentorID"),
+          fullname_chat : userData.fullname,
+          image : userData.image ,
+          chat_content : event.target.value
+        })
+        event.target.value = ""
+        socket.on("chat-done" , (data) => {
     
+          async function getData(){
+            let response = await axios.get(`http://localhost:5000/user/list-chat/${Cookies.get("mentorID")}` , {headers : {
+              "Authorization" : `Bearer ${localStorage.getItem("token")}`
+            }})
+            let receiverInformation = []
+            response.data.dataChatForUser.forEach((i) => {
+              let result = i.chat.filter(x => x.userID_chat !== Cookies.get("mentorID"))
+              receiverInformation.push(result[0])
+            })
+            setReceiver(receiverInformation)
+            setListChats(response.data.dataChatForUser)
+      }
+          getData()
+          setChats(data)
+        })
+    
+      }
+      else{
+        alert("Vui lòng chọn người bạn muốn nhắn")
+        event.target.value = ""
+      }
    
     }
+  }
+
+  function btnSendChat(){
+    if(chats.length !== 0){
+      socket.emit("chat" , {
+        userID_chat : Cookies.get("mentorID"),
+        fullname_chat : userData.fullname,
+        image : userData.image ,
+        chat_content : document.getElementById("chatcontent").value
+      })
+      document.getElementById("chatcontent").value = ""
+      socket.on("chat-done" , (data) => {
+  
+        async function getData(){
+          let response = await axios.get(`http://localhost:5000/user/list-chat/${Cookies.get("mentorID")}` , {headers : {
+            "Authorization" : `Bearer ${localStorage.getItem("token")}`
+          }})
+          let receiverInformation = []
+          response.data.dataChatForUser.forEach((i) => {
+            let result = i.chat.filter(x => x.userID_chat !== Cookies.get("mentorID"))
+            receiverInformation.push(result[0])
+          })
+          setReceiver(receiverInformation)
+          setListChats(response.data.dataChatForUser)
+    }
+        getData()
+        setChats(data)
+      })
+  
+    }
+    else{
+      alert("Vui lòng chọn người bạn muốn nhắn")
+      document.getElementById("chatcontent").value = ""
+    }
+    
   }
 
   if(Cookies.get("mentorID")){
@@ -97,17 +156,17 @@ const ChatPageForMentor = (props) => {
                               {" "}
                               <img
                                 src={
-                                  item.chat[item.chat.length - 1].image
+                                  receiver[index].image
                                 }
                                 alt="sunil"
                               />{" "}
                             </div>
                             <div className="chat_ib">
                               <h5>
-                                {item.chat[item.chat.length - 1].fullname_chat}
+                              {receiver[index].fullname_chat}
                                 <span className="chat_date">{item.chat[item.chat.length - 1].createAt}</span>
                               </h5>
-                              <p> {item.chat[item.chat.length - 1].chat_content}</p>
+                              <p> {item.chat[item.chat.length - 1].userID_chat === Cookies.get("mentorID") ?  `Bạn: ${item.chat[item.chat.length - 1].chat_content}` : item.chat[item.chat.length - 1].chat_content}</p>
                             </div>
                           </div>
                         </>
@@ -168,7 +227,7 @@ const ChatPageForMentor = (props) => {
                       id="chatcontent"
                       placeholder="Type a message"
                     />
-                    <button className="msg_send_btn" type="button">
+                    <button onClick={btnSendChat} className="msg_send_btn" type="button">
                       <i className="fa fa-paper-plane-o" aria-hidden="true" />
                     </button>
                   </div>
