@@ -1,5 +1,5 @@
 import Cookies from 'js-cookie';
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import axios from "axios"
 
 
@@ -7,41 +7,75 @@ import Navbar from '../Layouts/Navbar';
 import SideBar from '../Layouts/SideBar';
 
 const CreateReportTemplate = () => {
-    const [elementInput , setElementInput] = useState(["field1"])
-    const [columns , setColumns] = useState(["field1"])
+    const [elementInput , setElementInput] = useState([{id : "field1" , value : ""}])
+    const [columns , setColumns] = useState([{id : "field1" , value : ""}])
+    const curentIndex = useRef(2)
+
+
+    useEffect(()=>{
+        for (let i = 0 ; i < elementInput.length ; i++){ // giữ lại các trường người dùng đã nhập sau khi xóa
+            document.getElementById(elementInput[i].id).value = elementInput[i].value
+        }
+    })
+  
 
     function addField(){
-        const newElementInput = [...elementInput]  
-        const newColummns = [...columns]
-        newColummns.push(`field${newColummns.length + 1}`)
-        newElementInput.push(`field${elementInput.length +  1}`)
+      
+        let newElementInput = [...elementInput]  
+        let newColummns = [...columns]
+        newColummns.push({id : `field${curentIndex.current}` , value : ""})
+        newElementInput.push({id : `field${curentIndex.current}` , value : ""})
         setElementInput(newElementInput)
         setColumns(newColummns)
+        curentIndex.current = curentIndex.current + 1
+
     }
 
     function deleteField(idElement){
-        elementInput.splice(elementInput.indexOf(`field${idElement}`) ,1)
-        columns.splice(columns.indexOf(`field${idElement}`) ,1)
-        let field = document.getElementById(idElement) // vì có chung index khi add nên chỉ cần dùng chung chỉ số index
-        let column = document.getElementsByClassName(`field${idElement}`)[0]
-        field.remove()
-        column.remove()
-        setElementInput(elementInput)
-        setColumns(columns)
+        const newElementInput = [...elementInput]  
+        const newColummns = [...columns]
+        for(let index in newElementInput){
+            if(newElementInput[index].id === idElement){
+                newElementInput.splice(index ,1)
+            }
+        }
+        for(let index1 in newColummns){
+            if(newColummns[index1].id === idElement){
+                newColummns.splice(index1 ,1)
+            }
+        }
+     
+        setElementInput(newElementInput)
+        setColumns(newColummns)
+ 
     }
 
-    function changeColumnsName(event){
-        let nameColumn = document.getElementsByClassName(event.target.id)[0] // vì id của thẻ input trùng với className của thẻ th
-        nameColumn.innerHTML = event.target.value
+    function changeColumnsName(id){
+        return (event) =>{
+            let newElementInput = [...elementInput]
+            let newColumn = [...columns]
+            for (let index in newElementInput){
+                if(newElementInput[index].id === id){
+                    newElementInput[index].value = event.target.value
+                }
+            }
+            for (let index1 in newColumn){
+                if(newColumn[index1].id === id){
+                    newColumn[index1].value = event.target.value
+                }
+            }
+
+            setElementInput(newElementInput)
+            setColumns(newColumn)
+        }
+       
     }
 
     async function createReportTemplate(){
         let listField = []
-        let userData = JSON.parse(localStorage.getItem("userData"))
+        let userData = JSON.parse(localStorage.getItem("mentorData"))
         for (let i = 0 ; i < elementInput.length ; i++){
-            let idElement = elementInput[i]
-            let inputValue = document.getElementById(idElement).value
-            listField.push(inputValue)
+            listField.push(elementInput[i].value)
         }
 
         let body = {
@@ -94,23 +128,22 @@ const CreateReportTemplate = () => {
                                             </div>
                                             <div className="form-group">
                                                 <label className="form-label">Field *</label>
+                                                {elementInput.map((i1,index1) =>
+                                                 index1 !== 0 ?
                                                 <div className="input-group mb-3">
-    
-                                                    {elementInput.map((i1,index1) =>
-                                                        index1 !== 0 ?
-                                                        <div id={index1 + 1}>
-                                                        <input type="text" onKeyUp={changeColumnsName} className="form-control me-5" name="field" id={i1} placeholder="Nhập tên cột" aria-describedby="basic-addon2" /> 
+        
+                                                        <input type="text" onKeyUp={changeColumnsName(i1.id)} className="form-control me-5" name="field" id={i1.id} placeholder="Nhập tên cột"  aria-describedby="basic-addon2" /> 
                                                         <div className="input-group-append">
-                                                        <button className="btn btn-danger" onClick={() => deleteField(index1 + 1)} type="button"><i className="fas fa-times"></i> Delete</button> 
+                                                        <button className="btn btn-danger" onClick={() => deleteField(i1.id)} type="button"><i className="fas fa-times"></i> Delete</button> 
                                                         </div> 
-                                                        </div>  
+                                                </div>
                                                         :
-                                                       
-                                                        <input type="text" onKeyUp={changeColumnsName} className="form-control me-5" name="field" id={i1} placeholder="Nhập tên cột" aria-describedby="basic-addon2" />
-                                                       
+                                                        <div className="input-group mb-3">
+                                                        <input type="text" onKeyUp={changeColumnsName(i1.id)} className="form-control me-5" name="field" id={i1.id} placeholder="Nhập tên cột" aria-describedby="basic-addon2" />
+                                                        </div>
                                                     )}
 
-                                                </div>
+                                               
                                                 <button type="button" onClick={addField} className="btn btn-success"><i className="fas fa-plus"></i> Add</button>
                                             </div>
                                         </form>
@@ -124,7 +157,7 @@ const CreateReportTemplate = () => {
                                             <th scope="col">Project Name</th>
                                             <th scope="col">Task</th>
                                             {columns.map(i2  =>
-                                               <th className={i2} scope="col"></th>
+                                               <th className={i2.id} scope="col">{i2.value}</th>
                                             )}
                                             
                                         </tr>

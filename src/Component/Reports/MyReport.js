@@ -1,7 +1,6 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router';
 
 import Footer from '../Layouts/Footer'
 import Navbar from '../Layouts/Navbar'
