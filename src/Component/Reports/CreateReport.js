@@ -1,11 +1,75 @@
-import React from 'react';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+import React, { useEffect, useState } from 'react';
 
 
 import Navbar from '../Layouts/Navbar';
 import SideBar from '../Layouts/SideBar';
 
 const CreateReport = () => {
+    const [project , setProject] = useState([])
+    const [reportTemplate , setReportTemplate] = useState([])
+    const [reportTemplateData , setReportTemplateData] = useState([])
+    let userData = localStorage.getItem("userData") ? JSON.parse(localStorage.getItem("userData")) : ""
 
+    useEffect(() =>{
+            async function getData(){
+                    let responseProject = await axios.get("http://localhost:5000/user/get-list-project" , {
+                        headers : {
+                            Authorization : `Bearer ${localStorage.getItem("token")}`
+                        }
+                    })
+                    let responseReportTemplate = await axios.get("http://localhost:5000/user/get-list-report-template" , {
+                        headers : {
+                            Authorization : `Bearer ${localStorage.getItem("token")}`
+                        }
+                    })
+                    setProject(responseProject.data.listProject)
+                    setReportTemplate(responseReportTemplate.data.listReportTemplate)
+            }
+            getData()
+    } , [])
+
+    async function selectReportTemplate(event){
+        let response= await axios.get(`http://localhost:5000/user/get-report-template/${event.target.value}` , {
+            headers : {
+                Authorization : `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+        setReportTemplateData(response.data.reportTemplate.field)
+    }
+
+    function changeText(event){
+        document.getElementsByClassName(event.target.id)[0].innerHTML = event.target.value
+    }   
+
+    async function createReport(){
+            let reportData = {}
+            for (let i in reportTemplateData){
+                reportData[reportTemplateData[i]] = document.getElementById(reportTemplateData[i]).value
+            }
+            let body  = {
+                reportName : document.getElementById("reportName").value,
+                reporterID : userData._id ,
+                reporterName : userData.fullname ,
+                projectID : document.getElementById("project").value , 
+                reportTemplateID : document.getElementById("reporttemplate").value ,
+                reportData 
+
+            }
+            let response = await axios.post(`http://localhost:5000/user/create-report` ,body ,  {
+                headers : {
+                    Authorization : `Bearer ${localStorage.getItem("token")}`
+                }
+            })
+
+            if(response.data.success === true){
+                    alert("Created")
+            }
+            
+    }
+
+    if(Cookies.get("userID")){
         return (
             <>
                 <Navbar/>
@@ -14,68 +78,94 @@ const CreateReport = () => {
                     <div id="layoutSidenav_content">
                         <main>
                             <div className="container-fluid px-4">
-                                <h1 className="mt-4">CreateReport</h1>
+                                <h1 className="mt-4">Create Report</h1>
                                 <ol className="breadcrumb mb-4">
-                                    <li className="breadcrumb-item active">CreateReport</li>
+                                    <li className="breadcrumb-item"> <a href="">Report</a> </li>
+                                    <li className="breadcrumb-item active">Create Report</li>
                                 </ol>
-                                <div className="row">
-                                    <div className="col-xl-3 col-md-6">
-                                        <div className="card bg-primary text-white mb-4">
-                                            <div className="card-body">Primary Card</div>
-                                            <div className="card-footer d-flex align-items-center justify-content-between">
-                                                <a className="small text-white stretched-link" href="#">View Details</a>
-                                                <div className="small text-white"><i className="fas fa-angle-right"></i></div>
+                                <div className="row justify-content-center">
+                                    <div className="col-lg-7">
+                                        <form className="needs-validation" >
+                                            <div className="form-group">
+                                                <label className="form-label">Report Name *</label>
+                                                <input type="text" className="form-control" id="reportName" required />
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-xl-3 col-md-6">
-                                        <div className="card bg-warning text-white mb-4">
-                                            <div className="card-body">Warning Card</div>
-                                            <div className="card-footer d-flex align-items-center justify-content-between">
-                                                <a className="small text-white stretched-link" href="#">View Details</a>
-                                                <div className="small text-white"><i className="fas fa-angle-right"></i></div>
+                                            <div className="form-group">
+                                                <label className="form-label">Report Template </label>
+                                                <select onChange={selectReportTemplate} defaultValue="0" id="reporttemplate" className="form-select" aria-label="Default select example">
+                                                    <option value="0" disabled>Choose template...</option>
+                                                    {reportTemplate.map( i2 => 
+                                                            <option value={i2._id}>{i2.reportTemplateName}</option>
+                                                    )}
+                                                </select>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-xl-3 col-md-6">
-                                        <div className="card bg-success text-white mb-4">
-                                            <div className="card-body">Success Card</div>
-                                            <div className="card-footer d-flex align-items-center justify-content-between">
-                                                <a className="small text-white stretched-link" href="#">View Details</a>
-                                                <div className="small text-white"><i className="fas fa-angle-right"></i></div>
+                                            <div className="form-group">
+                                                <label className="form-label">Project </label>
+                                                <select defaultValue="0" id="project" className="form-select" aria-label="Default select example">
+                                                    <option value="0"  disabled>Choose project...</option>
+                                                    {project.map(i => 
+                                                            <option value={i._id}>{i.projectName}</option>
+                                                    )}
+                                                   
+                                                </select>
                                             </div>
-                                        </div>
-                                    </div>
-                                    <div className="col-xl-3 col-md-6">
-                                        <div className="card bg-danger text-white mb-4">
-                                            <div className="card-body">Danger Card</div>
-                                            <div className="card-footer d-flex align-items-center justify-content-between">
-                                                <a className="small text-white stretched-link" href="#">View Details</a>
-                                                <div className="small text-white"><i className="fas fa-angle-right"></i></div>
-                                            </div>
-                                        </div>
+                                            {reportTemplateData.map(i3 =>
+                                                    i3 === "Description" 
+                                                    ?
+                                                <div className="form-group">
+                                                    <label className="form-label">Description</label>
+                                                    <textarea onKeyUp={changeText} className="form-control" id="Description" rows="3"></textarea>
+                                                </div>
+                                                    :
+                                                    i3==="Reporter Name" 
+                                                    ? 
+                                                    <div className="form-group">
+                                                    <label className="form-label">{i3}</label>
+                                                    <input onKeyUp={changeText} type="text" defaultValue={userData.fullname} className="form-control" id={i3} required />
+                                                </div>
+                                                :
+
+                                                <div className="form-group">
+                                                    <label className="form-label">{i3}</label>
+                                                    <input onKeyUp={changeText} type="text" className="form-control" id={i3} required />
+                                                </div>
+                                            )}
+                                          
+                                            
+                                        </form>
                                     </div>
                                 </div>
-                                <div className="row">
-                                    <div className="col-xl-6">
-                                        <div className="card mb-4">
-                                            <div className="card-header">
-                                                <i className="fas fa-chart-area me-1"></i>
-                                                Area Chart Example
-                                            </div>
-                                            <div className="card-body"><canvas id="myAreaChart" width="100%" height="40"></canvas></div>
-                                        </div>
+                                <table className="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">#</th>
+                                            {reportTemplateData.map(i4 =>
+
+                                                <th scope="col">{i4}</th>
+                                 
+                                            )}
+                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td></td>
+                                            {reportTemplateData.map(i5 =>
+                                                i5 === "Reporter Name" ?
+                                                    <td className={i5}>{userData.fullname}</td>
+                                                    :
+                                                    <td className={i5}></td>
+
+                                            )}
+                                                          
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                <div className="row mt-4">
+                                    <div className="col text-center">
+                                        <button onClick={createReport} className="btn btn-primary" type="submit">Create Report</button>
                                     </div>
-                                    <div className="col-xl-6">
-                                        <div className="card mb-4">
-                                            <div className="card-header">
-                                                <i className="fas fa-chart-bar me-1"></i>
-                                                Bar Chart Example
-                                            </div>
-                                            <div className="card-body"><canvas id="myBarChart" width="100%" height="40"></canvas></div>
-                                        </div>
-                                    </div>
-                                </div>                        
+                                </div>            
                             </div>
                         </main>
                         <footer className="py-4 bg-light mt-auto">
@@ -95,6 +185,11 @@ const CreateReport = () => {
             </>
         );
     }
+    else{
+        window.location.href = "/login"
+    }
+  
+}
 
    
 

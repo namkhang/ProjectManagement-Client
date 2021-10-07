@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import axios from "axios"
 
 
-import Navbar from '../Layouts/Navbar';
+import NavbarForMentor from "../Layouts/NavbarForMentor"
 import SideBar from '../Layouts/SideBar';
 
 const CreateReportTemplate = () => {
@@ -101,9 +101,8 @@ const CreateReportTemplate = () => {
     if(Cookies.get("mentorID")){
         return (
             <>
-                <Navbar/>
+                <NavbarForMentor/>
                 <div id="layoutSidenav">
-                    <SideBar/>
                     <div id="layoutSidenav_content">
                         <main>
                             <div className="container-fluid px-4">
@@ -128,8 +127,14 @@ const CreateReportTemplate = () => {
                                             </div>
                                             <div className="form-group">
                                                 <label className="form-label">Field *</label>
-                                                {elementInput.map((i1,index1) =>
-                                                 index1 !== 0 ?
+
+                                                {elementInput.map(i1 =>
+                                                 elementInput.length  === 1 ?
+
+                                                 <div className="input-group mb-3">
+                                                    <input type="text" onKeyUp={changeColumnsName(i1.id)} className="form-control me-5" name="field" id={i1.id} placeholder="Nhập tên cột" aria-describedby="basic-addon2" />
+                                                 </div>
+                                                        :
                                                 <div className="input-group mb-3">
         
                                                         <input type="text" onKeyUp={changeColumnsName(i1.id)} className="form-control me-5" name="field" id={i1.id} placeholder="Nhập tên cột"  aria-describedby="basic-addon2" /> 
@@ -137,10 +142,6 @@ const CreateReportTemplate = () => {
                                                         <button className="btn btn-danger" onClick={() => deleteField(i1.id)} type="button"><i className="fas fa-times"></i> Delete</button> 
                                                         </div> 
                                                 </div>
-                                                        :
-                                                        <div className="input-group mb-3">
-                                                        <input type="text" onKeyUp={changeColumnsName(i1.id)} className="form-control me-5" name="field" id={i1.id} placeholder="Nhập tên cột" aria-describedby="basic-addon2" />
-                                                        </div>
                                                     )}
 
                                                

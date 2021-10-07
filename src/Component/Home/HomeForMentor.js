@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-import Navbar from '../Layouts/Navbar';
+import NavbarForMentor from "../Layouts/NavbarForMentor"
 import './Home.css'
 import axios from 'axios';
 import Cookies from 'js-cookie';
@@ -48,7 +48,7 @@ function HomeForMentor(props) {
     if(mentorID){
         return (
             <div>
-            <Navbar/>
+            <NavbarForMentor/>
             <div className="container">
            
             {post.map(i => 

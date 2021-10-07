@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 
 
 import "./styles.css";
-import Navbar from '../Layouts/Navbar'
+import NavbarForMentor from "../Layouts/NavbarForMentor"
 import Cookies from "js-cookie";
 import axios from "axios";
 import io from "socket.io-client"
@@ -120,7 +120,7 @@ const ChatPageForMentor = (props) => {
   if(Cookies.get("mentorID")){
     return (
       <div>
-        <Navbar />
+        <NavbarForMentor />
         <div className="container">
           <div className="messaging">
             <div className="inbox_msg">
