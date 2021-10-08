@@ -9,7 +9,7 @@ function HomeForMentor(props) {
     const [post , setPost] = useState([])
     const mentorID = Cookies.get("mentorID")
     const token = localStorage.getItem("token") ? localStorage.getItem("token") : ""
-    const {fullname : userName_commnent} = JSON.parse(localStorage.getItem("userData")) ? JSON.parse(localStorage.getItem("userData")) : {fullname : ""}
+    const {fullname : userName_commnent , image} = JSON.parse(localStorage.getItem("mentorData")) ? JSON.parse(localStorage.getItem("mentorData")) : {fullname : ""}
 
     useEffect(()=>{
         async function getData(){
@@ -26,6 +26,7 @@ function HomeForMentor(props) {
         postID ,
         userID_comment : mentorID ,
         userName_commnent , 
+        image ,
         content_comment : document.getElementById(postID).value
        }
         let response = await axios.post("http://localhost:5000/user/create_post_comment" , body , {headers :{

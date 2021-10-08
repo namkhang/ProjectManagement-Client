@@ -10,6 +10,7 @@ import './assets/css/styles.css';
 import HomeForMentor from './Component/Home/HomeForMentor';
 import ChatPage from './Component/Chat-page/ChatPage';
 import ChatPageForMentor from './Component/Chat-page/ChatPageForMentor';
+import ProfileUser from './Component/Profile/Profile';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route exact path="/create-report" component={CreateReport} />
         <Route exact path="/chat" component={ChatPage} />
         <Route exact path="/mentor/chat" component={ChatPageForMentor} />
+        <Route exact path="/profile/:id" component={ProfileUser} />
       </Switch>
     </div>
   );

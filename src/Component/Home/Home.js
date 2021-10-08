@@ -9,7 +9,7 @@ function Home(props) {
     const [post , setPost] = useState([])
     const userID = Cookies.get("userID")
     const token = localStorage.getItem("token") ? localStorage.getItem("token") : ""
-    const {fullname : userName_commnent} = JSON.parse(localStorage.getItem("userData")) ? JSON.parse(localStorage.getItem("userData")) : {fullname : ""}
+    const {fullname : userName_commnent , image} = JSON.parse(localStorage.getItem("userData")) ? JSON.parse(localStorage.getItem("userData")) : {fullname : ""}
 
     useEffect(()=>{
         async function getData(){
@@ -26,6 +26,7 @@ function Home(props) {
         postID ,
         userID_comment : userID ,
         userName_commnent , 
+        image,
         content_comment : document.getElementById(postID).value
        }
         let response = await axios.post("http://localhost:5000/user/create_post_comment" , body , {headers :{
@@ -57,7 +58,7 @@ function Home(props) {
     <div className="col-md-3"></div>
     <div className="col-md-6">
         <div className="header-Stt">
-            <span className="User-img"><img src="https://scontent.fdad1-3.fna.fbcdn.net/v/t1.6435-9/105037693_296643991531524_854097983083770554_n.jpg?_nc_cat=110&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=SnbAWyr8JO4AX_32XC8&_nc_ht=scontent.fdad1-3.fna&oh=d1c0a7de5268b6b80f0125fb03ef2764&oe=6144EC36" className="img-fluid rounded-start rounded-circle Avt-User mr-2" alt="..." />
+            <span className="User-img"><img src={i.image} className="img-fluid rounded-start rounded-circle Avt-User mr-2" alt="..." />
             </span>
             <span className="User-name mr-1">{i.userName} </span>
             <span className="User-name__active">{i.createAt}</span>

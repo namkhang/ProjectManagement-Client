@@ -51,7 +51,7 @@ const MyReport = (props) => {
             <div className="widget-49-title-wrapper">
                 <div className="widget-49-date-primary">
                     <span className="widget-49-date-day">{i.createAt.substring(0 , 2)}</span>
-                    <span className="widget-49-date-month">{i.createAt.substring(3 , 4)}</span>
+                    <span className="widget-49-date-month">{i.createAt.substring(3 , 5)}</span>
                 </div>
                 <div className="widget-49-meeting-info">
                     <span className="widget-49-pro-title">{i.projectName}</span>
@@ -59,9 +59,10 @@ const MyReport = (props) => {
                 </div>
             </div>
             <ol className="widget-49-meeting-points">
-                <li className="widget-49-meeting-item"><span>Expand module is removed</span></li>
-                <li className="widget-49-meeting-item"><span>Data migration is in scope</span></li>
-                <li className="widget-49-meeting-item"><span>Session timeout increase to 30 minutes</span></li>
+                {Object.keys(i.reportData).map(i2 => 
+                    <li className="widget-49-meeting-item"><span>{`${i2} : ${i.reportData[i2]}`}</span></li>
+                )}
+                
             </ol>
             <div className="widget-49-meeting-action">
                 <a href="#" className="btn btn-sm btn-flash-border-primary">Detail</a>

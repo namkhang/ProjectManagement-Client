@@ -166,7 +166,7 @@ const ChatPageForMentor = (props) => {
                               {receiver[index].fullname_chat}
                                 <span className="chat_date">{item.chat[item.chat.length - 1].createAt}</span>
                               </h5>
-                              <p> {item.chat[item.chat.length - 1].userID_chat === Cookies.get("mentorID") ?  `Bạn: ${item.chat[item.chat.length - 1].chat_content}` : item.chat[item.chat.length - 1].chat_content}</p>
+                              <p>{item.chat[item.chat.length - 1].userID_chat === Cookies.get("mentorID") ? item.chat[item.chat.length - 1].chat_content !== "" ?   `Bạn: ${item.chat[item.chat.length - 1].chat_content}` : "" :  item.chat[item.chat.length - 1].chat_content}</p>
                             </div>
                           </div>
                         </>
@@ -183,6 +183,9 @@ const ChatPageForMentor = (props) => {
                     </div>
 
                     {chats.map(chat => 
+                    chat.chat_content === "" ?
+                    ""
+                    :
                       chat.userID_chat === Cookies.get("mentorID") ? 
                       <div className="outgoing_msg">
                       <div className="sent_msg">
