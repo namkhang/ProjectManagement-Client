@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 
 import "./styles.css";
@@ -13,7 +13,7 @@ let socket = io("http://localhost:5000/")
 const ChatPage = (props) => {
   const userData = localStorage.getItem("userData") ? JSON.parse(localStorage.getItem("userData")) : ""
   const [listChats , setListChats] = useState([])
-  const [receiver , setReceiver] = useState([])
+  const receiver  = useRef([])
   const [chats , setChats] = useState([])
 
  
@@ -29,7 +29,7 @@ const ChatPage = (props) => {
               let result = i.chat.filter(x => x.userID_chat !== Cookies.get("userID"))
               receiverInformation.push(result[0])
             })
-            setReceiver(receiverInformation)
+            receiver.current = receiverInformation
             setListChats(response.data.dataChatForUser)
       }
       getData()
@@ -66,7 +66,7 @@ const ChatPage = (props) => {
               let result = i.chat.filter(x => x.userID_chat !== Cookies.get("userID"))
               receiverInformation.push(result[0])
             })
-            setReceiver(receiverInformation)
+            receiver.current = receiverInformation
             setListChats(response.data.dataChatForUser)
       }
           getData()
@@ -102,7 +102,7 @@ const ChatPage = (props) => {
             let result = i.chat.filter(x => x.userID_chat !== Cookies.get("userID"))
             receiverInformation.push(result[0])
           })
-          setReceiver(receiverInformation)
+          receiver.current = receiverInformation
           setListChats(response.data.dataChatForUser)
     }
         getData()
@@ -116,6 +116,29 @@ const ChatPage = (props) => {
      }
 
     
+  }
+
+
+  async function searchChat(event){
+      let response = await axios.get(`http://localhost:5000/user/search-chat` , {headers :{
+        Authorization : `Bearer ${localStorage.getItem("token")}`
+      } ,
+      params :{
+        name : event.target.value ,
+        userID : Cookies.get("userID")
+      }
+    })  
+    let receiverInformation = []
+    response.data.result.forEach((i) => {
+      let result = i.chat.filter(x => x.userID_chat !== Cookies.get("userID"))
+      receiverInformation.push(result[0])
+    })
+    console.log(event.target.value);
+    // console.log(receiverInformation);
+    // console.log(response.data.result);
+    receiver.current = receiverInformation
+    setListChats(response.data.result);
+
   }
 
   if(Cookies.get("userID")){
@@ -133,6 +156,7 @@ const ChatPage = (props) => {
                   <div className="srch_bar">
                     <div className="stylish-input-group">
                       <input
+                      onKeyUp={searchChat}
                         type="text"
                         className="search-bar"
                         placeholder="Search"
@@ -157,14 +181,14 @@ const ChatPage = (props) => {
                               {" "}
                               <img
                                 src={
-                                  receiver[index].image
+                                  receiver.current[index].image
                                 }
                                 alt="sunil"
                               />{" "}
                             </div>
                             <div className="chat_ib">
                               <h5>
-                                {receiver[index].fullname_chat}
+                                {receiver.current[index].fullname_chat}
                                 <span className="chat_date">{item.chat[item.chat.length - 1].createAt}</span>
                               </h5>
                               <p> {item.chat[item.chat.length - 1].userID_chat === Cookies.get("userID") ? item.chat[item.chat.length - 1].chat_content !== "" ?   `Bạn: ${item.chat[item.chat.length - 1].chat_content}` : "" :  item.chat[item.chat.length - 1].chat_content}</p>

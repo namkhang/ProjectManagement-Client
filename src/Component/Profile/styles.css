@@ -44,7 +44,6 @@
   margin-right: auto;
   padding-left: 1rem;
   padding-right: 1rem;
-  height: 563px;
 }
 
 .profile-page__bottom-body {
@@ -236,4 +235,8 @@
   color: rgb(237, 100, 166);
   font-weight: 400;
   text-decoration: inherit;
+}
+
+.my-anchor-css-class {
+  color: rgb(237, 100, 166);
 }
