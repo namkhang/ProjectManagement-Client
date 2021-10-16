@@ -82,3 +82,5 @@ function fortmater(x){
 }
 let result = fortmat.map(fortmater)
 console.log(result);
+
+

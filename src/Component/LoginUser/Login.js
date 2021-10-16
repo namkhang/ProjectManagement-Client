@@ -22,10 +22,10 @@ function Login(props) {
                      }
                 }
                 else {
-                    response.data.role === "student" ? Cookies.set("userID", response.data.userData._id, { expires: 1 / 24 }) : Cookies.set("mentorID", response.data.userData._id, { expires: 1 / 24 })
+                    response.data.role === "student" ? Cookies.set("userID", response.data.userData._id, { expires: 1 / 24 }) : response.data.role === "mentor" ? Cookies.set("mentorID", response.data.userData._id, { expires: 1 / 24 }) : Cookies.set("adminID", response.data.userData._id, { expires: 1 / 24 })
                     localStorage.setItem("token", response.data.token)
-                    response.data.role === "student" ? localStorage.setItem("userData", JSON.stringify(response.data.userData)) : localStorage.setItem("mentorData", JSON.stringify(response.data.userData))
-                    response.data.role === "student" ? window.location.href = "/" : window.location.href = "/mentor"
+                    response.data.role === "student" ? localStorage.setItem("userData", JSON.stringify(response.data.userData)) :  response.data.role === "mentor" ? localStorage.setItem("mentorData", JSON.stringify(response.data.userData)) : localStorage.setItem("adminData", JSON.stringify(response.data.userData))
+                    response.data.role === "student" ? window.location.href = "/" : response.data.role === "mentor" ? window.location.href = "/mentor" : window.location.href = "/admin"
                 }
             }
         }

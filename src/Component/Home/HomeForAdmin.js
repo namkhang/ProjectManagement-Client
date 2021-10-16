@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from 'react';
 
-import NavbarForMentor from "../Layouts/NavbarForMentor"
+import NavbarForAdmin from "../Layouts/NavbarForAdmin"
 import './Home.css'
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-function HomeForMentor(props) {
+function HomeForAdmin(props) {
     const [post , setPost] = useState([])
-    const mentorID = Cookies.get("mentorID")
+    const adminID = Cookies.get("adminID")
     const token = localStorage.getItem("token") ? localStorage.getItem("token") : ""
-    const {fullname : userName_commnent , image} = JSON.parse(localStorage.getItem("mentorData")) ? JSON.parse(localStorage.getItem("mentorData")) : {fullname : ""}
+    const {fullname : userName_commnent , image} = JSON.parse(localStorage.getItem("adminData")) ? JSON.parse(localStorage.getItem("adminData")) : {fullname : ""}
 
     useEffect(()=>{
         async function getData(){
@@ -24,7 +24,7 @@ function HomeForMentor(props) {
    async function Comment(postID){
        let body = {
         postID ,
-        userID_comment : mentorID ,
+        userID_comment : adminID ,
         userName_commnent , 
         image ,
         content_comment : document.getElementById(postID).value
@@ -46,10 +46,10 @@ function HomeForMentor(props) {
             setPost(response.data.newPost)
     }
 
-    if(mentorID){
+    if(adminID){
         return (
             <div>
-            <NavbarForMentor/>
+            <NavbarForAdmin/>
             <div className="container">
            
             {post.map(i => 
@@ -177,4 +177,4 @@ function HomeForMentor(props) {
    
 }
 
-export default HomeForMentor;
+export default HomeForAdmin;
