@@ -67,9 +67,7 @@ function HomeForAdmin(props) {
                 {i.content}
         </div>
         <div className="Description_img_video mb-3">
-            <div class="embed-responsive embed-responsive-1by1">
-                <iframe className="h-100" src="https://www.facebook.com/plugins/video.php?height=476&href=https%3A%2F%2Fwww.facebook.com%2Fyeah1music%2Fvideos%2F532584454466133%2F&show_text=false&width=476&t=0" width={476} height={476} style={{ border: 'none', overflow: 'hidden' }} scrolling="no" frameBorder={0} allowFullScreen="true" allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share" />
-            </div>
+                    <img className="h-100" src={i.imagePost} style={{ border: 'none', overflow: 'hidden' }}/>   
         </div>
         <span style={{marginLeft : '45px'}} className="User-name__active">{i.like} lượt thích</span>
         <span style={{marginLeft : '100px'}} className="User-name__active">{i.post_comment.length} lượt bình luận</span>

@@ -18,6 +18,8 @@ import ProfileAdmin from './Component/Profile/ProfileForAdmin';
 import MyReportForMentor from './Component/Reports/MyReportForMentor';
 import MyReportForAdmin from './Component/Reports/MyReportForAdmin';
 import CreateReportTemplateForAdmin from './Component/Report-Template/CreateReportTemplateForAdmin';
+import Createpost from './Component/CreatePost/CreatePost';
+import CreatepostForAdmin from './Component/CreatePost/CreatePostForAdmin';
 
 function App() {
   return (
@@ -27,6 +29,8 @@ function App() {
         <Route exact path="/mentor" component={HomeForMentor} />
         <Route exact path="/admin" component={HomeForAdmin} />
         <Route exact path="/login" component={Login} />
+        <Route exact path="/mentor/create-post" component={Createpost} />
+        <Route exact path="/admin/create-post" component={CreatepostForAdmin} />
         <Route exact path="/mentor/create-report-template" component={CreateReportTemplate} />
         <Route exact path="/admin/create-report-template" component={CreateReportTemplateForAdmin} />
         <Route exact path="/my-report" component={MyReport} />
