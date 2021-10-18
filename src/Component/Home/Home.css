@@ -127,3 +127,11 @@
       overflow: auto;
       width: 100%;
     }
+    img.img-fluid.rounded-start.rounded-circle {
+      width: 60px;
+      height: 60px;
+      border-radius: 50% !important;
+  }
+  .row.g-0{
+    padding: 20px 10px;
+  }

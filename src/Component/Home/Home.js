@@ -124,7 +124,7 @@ function Home(props) {
             {/* inputcmt */}
             <div className="collapse mt-2 mb-3" id="collapseExample">
                 <input type="text" id={i._id} className="form-control input-cmt mb-2" />
-                <button type="submit" onClick={() => Comment(i._id)} class="btn btn-sent my-1 float-right mb-4"><i class="fa fa-paper-plane"></i></button> <br></br><br></br>  <br></br>
+                <button type="submit" onClick={() => Comment(i._id)} class="btn btn-sent btn-primary my-1 float-right mb-4"><i class="fa fa-paper-plane"></i></button> <br></br><br></br>  <br></br>
                 {/* endinputcmt */}
                 <div className="scroll p-3">
                     {i.post_comment.map(item => 
@@ -136,7 +136,7 @@ function Home(props) {
                              </div>
                              <div className="col-9">
                                  <div className="card-body p-0">
-                                     <h5 className="card-title NameUser pt-2 mb-1">{item.userName_commnet}</h5>
+                                     <h6 className="card-title NameUser pt-2 mb-1">{item.userName_commnent}</h6>
                                      <p className="card-text Cmt_Description mb-1">{item.content_comment}</p>
                                      <p className="card-text"><small className="text-muted">{item.createAt_comment}</small></p>
                                  </div>
