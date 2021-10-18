@@ -24,6 +24,7 @@ const NavbarForAdmin = () => {
                     <a className="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i className="fas fa-user fa-fw"></i></a>
                     <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                         <li><a className="dropdown-item" href="/admin/chat">Chat</a></li>
+                        <li><a className="dropdown-item" href="/admin/list-report">Report</a></li>
                         <li><a className="dropdown-item" href="/admin/list-project">Project</a></li>
                         <li><a className="dropdown-item" href="/admin/create-report-template">Create Report Template</a></li>
                         <li><hr className="dropdown-divider" /></li>

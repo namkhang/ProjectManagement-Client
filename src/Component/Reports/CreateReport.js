@@ -117,7 +117,7 @@ const CreateReport = () => {
                                                     <textarea onKeyUp={changeText} className="form-control" id="Description" rows="3"></textarea>
                                                 </div>
                                                     :
-                                                    i3==="Reporter Name" 
+                                                    i3 === "Reporter Name" 
                                                     ? 
                                                     <div className="form-group">
                                                     <label className="form-label">{i3}</label>

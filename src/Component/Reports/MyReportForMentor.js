@@ -3,27 +3,37 @@ import Cookies from 'js-cookie';
 import React, { useEffect, useState } from 'react';
 
 import Footer from '../Layouts/Footer'
-import Navbar from '../Layouts/Navbar'
+import Navbar from '../Layouts/NavbarForMentor'
 import SideBar from '../Layouts/SideBar'
 
 import './MyReport.css'
 
-const MyReport = (props) => {
+const MyReportForMentor = (props) => {
     const [report , setReport] = useState([])
+    const [project , setProject] = useState([])
 
     useEffect(()=>{
       async  function getData(){
-        let userID = Cookies.get("userID")
-        let response = await axios.get(`http://localhost:5000/user/my-report/${userID}` , {headers : {
+        let mentorID = Cookies.get("mentorID")
+        let response = await axios.get(`http://localhost:5000/mentor/my-project/${mentorID}` , {headers : {
             Authorization : `Bearer ${localStorage.getItem("token")}`
         }})
-        setReport(response.data.dataReport)
+        setProject(response.data.dataProject)
     }
     getData()
            
     } , [])
 
-    if(Cookies.get("userID")){
+    async function getReport(event){
+        let response = await axios.get(`http://localhost:5000/mentor/get-report-by-project/${event.target.value}` , {
+            headers :{
+                Authorization : `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+        setReport(response.data.dataReport)
+    }
+
+    if(Cookies.get("mentorID")){
         return (
             <div>
             <Navbar/>
@@ -39,6 +49,18 @@ const MyReport = (props) => {
                                 <div className="row">
     
                      <div className="col-xl-6">
+                     <div className="form-group">
+                                                <label className="form-label">Project </label>
+                                                <select onChange={getReport} defaultValue="0" id="project" className="form-select" aria-label="Default select example">
+                                                    <option value="0"  disabled>Choose project...</option>
+                                                            {project.map(i =>
+                                                            <option value={i._id}>{i.projectName}</option>
+                                                            )}
+                                                            
+                                                  
+                                                   
+                                                </select>
+                    </div>
                 
                     {report.map(i => 
     
@@ -92,4 +114,4 @@ const MyReport = (props) => {
   
 }
 
-export default MyReport;
+export default MyReportForMentor;

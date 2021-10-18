@@ -15,6 +15,9 @@ import HomeForAdmin from './Component/Home/HomeForAdmin';
 import ChatPageForAdmin from './Component/Chat-page/ChatPageForAdmin';
 import ProfileMentor from './Component/Profile/ProfileForMentor';
 import ProfileAdmin from './Component/Profile/ProfileForAdmin';
+import MyReportForMentor from './Component/Reports/MyReportForMentor';
+import MyReportForAdmin from './Component/Reports/MyReportForAdmin';
+import CreateReportTemplateForAdmin from './Component/Report-Template/CreateReportTemplateForAdmin';
 
 function App() {
   return (
@@ -25,7 +28,10 @@ function App() {
         <Route exact path="/admin" component={HomeForAdmin} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/mentor/create-report-template" component={CreateReportTemplate} />
+        <Route exact path="/admin/create-report-template" component={CreateReportTemplateForAdmin} />
         <Route exact path="/my-report" component={MyReport} />
+        <Route exact path="/mentor/my-report" component={MyReportForMentor} />
+        <Route exact path="/admin/list-report" component={MyReportForAdmin} />
         <Route exact path="/create-report" component={CreateReport} />
         <Route exact path="/chat" component={ChatPage} />
         <Route exact path="/mentor/chat" component={ChatPageForMentor} />
