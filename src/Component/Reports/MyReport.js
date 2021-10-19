@@ -23,6 +23,10 @@ const MyReport = (props) => {
            
     } , [])
 
+    function ToDetailPage(reportID){
+            window.location.href = `http://localhost:3000/report-detail/${reportID}`
+    }
+
     if(Cookies.get("userID")){
         return (
             <div>
@@ -41,8 +45,7 @@ const MyReport = (props) => {
                      <div className="col-xl-6">
                 
                     {report.map(i => 
-    
-    <div className="card card-margin shadow p-3 mb-5">
+    <div onClick={() => ToDetailPage(i._id)} className="card card-margin shadow p-3 mb-5">
     <div className="card-header no-border">
         <h5 className="card-title">Report Capstone 2</h5>
     </div>
