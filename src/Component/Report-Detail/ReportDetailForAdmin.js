@@ -1,10 +1,14 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import React, { useEffect, useState } from 'react';
+import io from "socket.io-client"
 import { useParams } from 'react-router';
 import Navbar from '../Layouts/NavbarForMentor';
 import SideBar from '../Layouts/SideBar';
 import './ReportDetail.css'
+
+
+let socket = io("http://localhost:5000/")
 
 const ReportDetailForAdmin = () => {
     let {id} = useParams()
@@ -14,6 +18,7 @@ const ReportDetailForAdmin = () => {
     
 
     useEffect(()=>{
+        socket.emit("join-room" , id)
         async function getData(){
                 let response = await axios.get(`http://localhost:5000/user/get-report-detail/${id}` , {
                     headers : {
@@ -38,7 +43,6 @@ const ReportDetailForAdmin = () => {
     }
 
     async function CreateComment(){
-        console.log(userData);
         let body = {
             reportID : id ,
             content : document.getElementById("content").value ,
@@ -46,13 +50,29 @@ const ReportDetailForAdmin = () => {
             userImage_Comment : userData.image ,
             userName_Comment : userData.fullname 
         }
-        let response = await axios.post(`http://localhost:5000/user/create-report-comment/` ,body , {
-                    headers : {
-                        Authorization : `Bearer ${localStorage.getItem("token")}`
-                    }
-                })
-            setReport(response.data.newReport)
-            document.getElementById("content").value = ""
+        socket.emit("create-report-comment" , body)
+        socket.on("report-comment-done" , (data)=> {
+            setReport(data)
+        })
+        document.getElementById("content").value = ""
+    }
+
+    
+    function TxtCreateComment(event){
+        if(event.keyCode === 13){
+          let body = {
+              reportID : id ,
+              content : document.getElementById("content").value ,
+              userID_Comment : userData._id ,
+              userImage_Comment : userData.image ,
+              userName_Comment : userData.fullname 
+          }
+          socket.emit("create-report-comment" , body)
+          socket.on("report-comment-done" , (data)=> {
+              setReport(data)
+          })
+          document.getElementById("content").value = ""
+        }
     }
 
     if(Cookies.get("adminID")){
@@ -128,7 +148,7 @@ const ReportDetailForAdmin = () => {
                                         </div>
                                         <div class="d-flex flex-row add-comment-section mt-4 mb-4">
                                             <img class="img-fluid img-responsive rounded-circle mr-2" src={userData.image} width="38"/>
-                                            <input id="content" type="text" class="form-control mr-3" placeholder="Add comment"/>
+                                            <input onKeyUp={TxtCreateComment} id="content" type="text" class="form-control mr-3" placeholder="Add comment"/>
                                             <button onClick={CreateComment} class="btn btn-primary comment" type="button"><i class="fas fa-paper-plane"></i> Comment</button>
                                         </div>
                                        
