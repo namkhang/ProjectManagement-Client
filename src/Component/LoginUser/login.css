@@ -50,13 +50,17 @@
   height: 21px;
   padding-left: 10px;
  }
- .btn_login {
+ button.btn.btn_login{
   margin: 0px 19px;
   background-color: rgb(90, 2, 2);
   border: none;
   color: #fff;
   padding: 4px;
   border-radius: 5px;
+ }
+ .inputRadio {
+  width: 83px !important;
+  padding: 3px 5px !important;
  }
  .Button {
   font-weight: 600;

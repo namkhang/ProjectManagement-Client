@@ -1,6 +1,6 @@
 import Cookies from 'js-cookie';
 import React from 'react';
-
+import "../../App.css";
 const NavbarForMentor = () => {
 
     function logOut(){
