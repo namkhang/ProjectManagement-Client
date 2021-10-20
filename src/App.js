@@ -20,6 +20,9 @@ import MyReportForAdmin from './Component/Reports/MyReportForAdmin';
 import CreateReportTemplateForAdmin from './Component/Report-Template/CreateReportTemplateForAdmin';
 import Createpost from './Component/CreatePost/CreatePost';
 import CreatepostForAdmin from './Component/CreatePost/CreatePostForAdmin';
+import ReportDetail from './Component/Report-Detail/ReportDetail';
+import ReportDetailForMentor from './Component/Report-Detail/ReportDetailForMentor';
+import ReportDetailForAdmin from './Component/Report-Detail/ReportDetailForAdmin';
 
 function App() {
   return (
@@ -43,6 +46,9 @@ function App() {
         <Route exact path="/profile/:id" component={ProfileUser} />
         <Route exact path="/mentor/profile/:id" component={ProfileMentor} />
         <Route exact path="/admin/profile/:id" component={ProfileAdmin} />
+        <Route exact path="/report-detail/:id" component={ReportDetail} />
+        <Route exact path="/mentor/report-detail/:id" component={ReportDetailForMentor} />
+        <Route exact path="/admin/report-detail/:id" component={ReportDetailForAdmin} />
       </Switch>
     </div>
   );

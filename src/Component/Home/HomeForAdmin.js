@@ -4,6 +4,9 @@ import NavbarForAdmin from "../Layouts/NavbarForAdmin"
 import './Home.css'
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import io from 'socket.io-client';
+
+let socket = io("http://localhost:5000/")
 
 function HomeForAdmin(props) {
     const [post , setPost] = useState([])
@@ -21,20 +24,39 @@ function HomeForAdmin(props) {
         getData()
     } , [])
 
-   async function Comment(postID){
-       let body = {
-        postID ,
-        userID_comment : adminID ,
-        userName_commnent , 
-        image ,
-        content_comment : document.getElementById(postID).value
-       }
-        let response = await axios.post("http://localhost:5000/user/create_post_comment" , body , {headers :{
-            Authorization : `Bearer ${token}`
-        }})
-        setPost(response.data.newPost)
-        document.getElementById(postID).value = ""
-    }
+    function TxtComment(postID){
+        return async (event) => {
+             if(event.keyCode === 13){
+                 let body = {
+                     postID ,
+                     userID_comment : adminID ,
+                     userName_commnent , 
+                     image,
+                     content_comment : event.target.value
+                    }
+                     socket.emit("create-post-comment" , body)
+                     socket.on("done-post-comment" , (data) =>{
+                         setPost(data)
+                     })
+                     document.getElementById(postID).value = ""
+             }
+        }
+        
+     }
+     function Comment(postID){
+         let body = {
+             postID ,
+             userID_comment : adminID ,
+             userName_commnent , 
+             image,
+             content_comment : document.getElementById(postID).value
+            }
+             socket.emit("create-post-comment" , body)
+             socket.on("done-post-comment" , (data) =>{
+                 setPost(data)
+             })
+             document.getElementById(postID).value = ""
+     }
 
     async function Like(postID){
             let data = {
@@ -121,8 +143,8 @@ function HomeForAdmin(props) {
         <div>
             {/* inputcmt */}
             <div className="collapse mt-2 mb-3" id="collapseExample">
-                <input type="text" id={i._id} className="form-control input-cmt mb-2" />
-                <button type="submit" onClick={() => Comment(i._id)} class="btn btn-sent my-1 float-right mb-4"><i class="fa fa-paper-plane"></i></button> <br></br><br></br>  <br></br>
+                <input onKeyUp={TxtComment(i._id)} type="text" id={i._id} className="form-control input-cmt mb-2" />
+                <button type="submit" onClick={() => Comment(i._id)} class="btn btn-sent btn-primary my-1 float-right mb-4"><i class="fa fa-paper-plane"></i></button> <br></br><br></br>  <br></br>
                 {/* endinputcmt */}
                 <div className="scroll p-3">
                     {i.post_comment.map(item => 
@@ -134,7 +156,7 @@ function HomeForAdmin(props) {
                              </div>
                              <div className="col-9">
                                  <div className="card-body p-0">
-                                     <h5 className="card-title NameUser pt-2 mb-1">{item.userName_commnet}</h5>
+                                     <h5 className="card-title NameUser pt-2 mb-1">{item.userName_commnent}</h5>
                                      <p className="card-text Cmt_Description mb-1">{item.content_comment}</p>
                                      <p className="card-text"><small className="text-muted">{item.createAt_comment}</small></p>
                                  </div>

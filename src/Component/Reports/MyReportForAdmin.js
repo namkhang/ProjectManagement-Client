@@ -32,6 +32,10 @@ const MyReportForAdmin = (props) => {
         setReport(response.data.dataReport)
     }
 
+    function ToDetailPage(reportID){
+        window.location.href = `http://localhost:3000/admin/report-detail/${reportID}`
+}
+
     if(Cookies.get("adminID")){
         return (
             <div>
@@ -52,8 +56,8 @@ const MyReportForAdmin = (props) => {
                                                 <label className="form-label">Project </label>
                                                 <select onChange={getReport} defaultValue="0" id="project" className="form-select" aria-label="Default select example">
                                                     <option value="0"  disabled>Choose project...</option>
-                                                            {project.map(i =>
-                                                            <option value={i._id}>{i.projectName}</option>
+                                                            {project.map(i2 =>
+                                                            <option value={i2._id}>{i2.projectName}</option>
                                                             )}
                                                             
                                                   
@@ -63,7 +67,7 @@ const MyReportForAdmin = (props) => {
                 
                     {report.map(i => 
     
-    <div className="card card-margin shadow p-3 mb-5">
+    <div onClick={() => ToDetailPage(i._id)} className="card card-margin shadow p-3 mb-5">
     <div className="card-header no-border">
         <h5 className="card-title">Report Capstone 2</h5>
     </div>
