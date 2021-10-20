@@ -1,19 +1,22 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 
 import "./styles.css";
-import NavbarForMentor from "../Layouts/NavbarForMentor"
+import Navbar from '../Layouts/NavbarForMentor'
 import Cookies from "js-cookie";
 import axios from "axios";
 import io from "socket.io-client"
+import Loading from '../Loading/Loading'
+
 
 let socket = io("http://localhost:5000/")
 
 const ChatPageForMentor = (props) => {
   const userData = localStorage.getItem("mentorData") ? JSON.parse(localStorage.getItem("mentorData")) : ""
   const [listChats , setListChats] = useState([])
+  const receiver  = useRef([])
+  const [loading , setLoading] = useState(false)
   const [chats , setChats] = useState([])
-  const [receiver , setReceiver] = useState([])
 
  
 
@@ -28,8 +31,10 @@ const ChatPageForMentor = (props) => {
               let result = i.chat.filter(x => x.userID_chat !== Cookies.get("mentorID"))
               receiverInformation.push(result[0])
             })
-            setReceiver(receiverInformation)
+            receiver.current = receiverInformation
+            setLoading(true)
             setListChats(response.data.dataChatForUser)
+
       }
       getData()
   } , [])
@@ -47,7 +52,7 @@ const ChatPageForMentor = (props) => {
 
   function enterChat(event){
     if(event.keyCode === 13){
-      if(chats.length !== 0){
+       if(chats.length !== 0 ){
         socket.emit("chat" , {
           userID_chat : Cookies.get("mentorID"),
           fullname_chat : userData.fullname,
@@ -56,7 +61,6 @@ const ChatPageForMentor = (props) => {
         })
         event.target.value = ""
         socket.on("chat-done" , (data) => {
-    
           async function getData(){
             let response = await axios.get(`http://localhost:5000/user/list-chat/${Cookies.get("mentorID")}` , {headers : {
               "Authorization" : `Bearer ${localStorage.getItem("token")}`
@@ -66,24 +70,25 @@ const ChatPageForMentor = (props) => {
               let result = i.chat.filter(x => x.userID_chat !== Cookies.get("mentorID"))
               receiverInformation.push(result[0])
             })
-            setReceiver(receiverInformation)
+            receiver.current = receiverInformation
             setListChats(response.data.dataChatForUser)
       }
           getData()
           setChats(data)
-        })
     
-      }
-      else{
-        alert("Vui lòng chọn người bạn muốn nhắn")
-        event.target.value = ""
-      }
+        })
+       }
+       else{
+         alert("Vui lòng chọn người bạn muốn nhắn")
+         event.target.value = ""
+       }
+
    
     }
   }
 
   function btnSendChat(){
-    if(chats.length !== 0){
+    if(chats.length !== 0 ){
       socket.emit("chat" , {
         userID_chat : Cookies.get("mentorID"),
         fullname_chat : userData.fullname,
@@ -92,7 +97,6 @@ const ChatPageForMentor = (props) => {
       })
       document.getElementById("chatcontent").value = ""
       socket.on("chat-done" , (data) => {
-  
         async function getData(){
           let response = await axios.get(`http://localhost:5000/user/list-chat/${Cookies.get("mentorID")}` , {headers : {
             "Authorization" : `Bearer ${localStorage.getItem("token")}`
@@ -102,25 +106,56 @@ const ChatPageForMentor = (props) => {
             let result = i.chat.filter(x => x.userID_chat !== Cookies.get("mentorID"))
             receiverInformation.push(result[0])
           })
-          setReceiver(receiverInformation)
+          receiver.current = receiverInformation
           setListChats(response.data.dataChatForUser)
     }
         getData()
         setChats(data)
-      })
   
-    }
-    else{
-      alert("Vui lòng chọn người bạn muốn nhắn")
-      document.getElementById("chatcontent").value = ""
-    }
+      })
+     }
+     else{
+       alert("Vui lòng chọn người bạn muốn nhắn")
+       document.getElementById("chatcontent").value = ""
+     }
+
     
   }
 
+
+  async function searchChat(event){
+      let response = await axios.get(`http://localhost:5000/user/search-chat` , {headers :{
+        Authorization : `Bearer ${localStorage.getItem("token")}`
+      } ,
+      params :{
+        name : event.target.value ,
+        userID : Cookies.get("mentorID")
+      }
+    })  
+    let receiverInformation = []
+    response.data.result.forEach((i) => {
+      let result = i.chat.filter(x => x.userID_chat !== Cookies.get("mentorID"))
+      receiverInformation.push(result[0])
+    })
+    console.log(event.target.value);
+    // console.log(receiverInformation);
+    // console.log(response.data.result);
+    receiver.current = receiverInformation
+    setListChats(response.data.result);
+
+  }
+
   if(Cookies.get("mentorID")){
+    if(loading === false){
+      return (
+        <Loading />
+      )
+    }
+    else{
+
     return (
       <div>
-        <NavbarForMentor />
+        <Navbar />
         <div className="container">
           <div className="messaging">
             <div className="inbox_msg">
@@ -132,6 +167,7 @@ const ChatPageForMentor = (props) => {
                   <div className="srch_bar">
                     <div className="stylish-input-group">
                       <input
+                      onKeyUp={searchChat}
                         type="text"
                         className="search-bar"
                         placeholder="Search"
@@ -156,17 +192,17 @@ const ChatPageForMentor = (props) => {
                               {" "}
                               <img
                                 src={
-                                  receiver[index].image
+                                  receiver.current[index].image
                                 }
                                 alt="sunil"
                               />{" "}
                             </div>
                             <div className="chat_ib">
                               <h5>
-                              {receiver[index].fullname_chat}
+                                {receiver.current[index].fullname_chat}
                                 <span className="chat_date">{item.chat[item.chat.length - 1].createAt}</span>
                               </h5>
-                              <p>{item.chat[item.chat.length - 1].userID_chat === Cookies.get("mentorID") ? item.chat[item.chat.length - 1].chat_content !== "" ?   `Bạn: ${item.chat[item.chat.length - 1].chat_content}` : "" :  item.chat[item.chat.length - 1].chat_content}</p>
+                              <p> {item.chat[item.chat.length - 1].userID_chat === Cookies.get("mentorID") ? item.chat[item.chat.length - 1].chat_content !== "" ?   `Bạn: ${item.chat[item.chat.length - 1].chat_content}` : "" :  item.chat[item.chat.length - 1].chat_content}</p>
                             </div>
                           </div>
                         </>
@@ -213,7 +249,9 @@ const ChatPageForMentor = (props) => {
                       </div>
                     </div>
 
+
                       )}
+                  
 
              
   
@@ -242,6 +280,7 @@ const ChatPageForMentor = (props) => {
       </div>
     );
   }
+}
   else{
       window.location.href = "/login"
   }

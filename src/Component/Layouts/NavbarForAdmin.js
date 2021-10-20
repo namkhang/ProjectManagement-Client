@@ -1,5 +1,6 @@
 import Cookies from 'js-cookie';
 import React from 'react';
+import ReactstrapDropdown from "./ReactstrapDropdown";
 
 const NavbarForAdmin = () => {
 
@@ -15,7 +16,9 @@ const NavbarForAdmin = () => {
     return (
         <nav className="sb-topnav navbar navbar-expand navbar-dark bg-dark">
             <a className="navbar-brand ps-3" href="/admin">Report Management System</a>
-            <button className="btn btn-link btn-sm order-1 order-lg-0 me-4 me-lg-0 mx-5" id="sidebarToggle" href="#!"><i className="fas fa-bars"></i></button>
+            <div style={{ width: "50%", margin: "20px auto" }}>
+                    <ReactstrapDropdown />
+            </div>
             <form className="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
                 
             </form>

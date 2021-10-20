@@ -5,18 +5,20 @@ import React, { useEffect, useState } from 'react';
 import Footer from '../Layouts/Footer'
 import Navbar from '../Layouts/NavbarForAdmin'
 import SideBar from '../Layouts/SideBar'
-
+import Loading from '../Loading/Loading'
 import './MyReport.css'
 
 const MyReportForAdmin = (props) => {
     const [report , setReport] = useState([])
     const [project , setProject] = useState([])
+    const [loading , setLoading] = useState(false)
 
     useEffect(()=>{
       async  function getData(){
         let response = await axios.get(`http://localhost:5000/admin/list-project` , {headers : {
             Authorization : `Bearer ${localStorage.getItem("token")}`
         }})
+        setLoading(true)
         setProject(response.data.dataProject)
     }
     getData()
@@ -37,6 +39,12 @@ const MyReportForAdmin = (props) => {
 }
 
     if(Cookies.get("adminID")){
+        if(loading === false){
+            return (
+                <Loading />
+            )
+        }
+        else{
         return (
             <div>
             <Navbar/>
@@ -110,6 +118,7 @@ const MyReportForAdmin = (props) => {
           
         );
     }
+}
     else{
         window.location.href = "/login"
     }

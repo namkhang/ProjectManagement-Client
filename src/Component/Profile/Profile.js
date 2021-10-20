@@ -2,6 +2,8 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
+import Navbar from '../Layouts/Navbar';
+import Loading from '../Loading/Loading'
 
 import ShowMoreText from "react-show-more-text";
 import "./styles.css";
@@ -9,6 +11,7 @@ import "./styles.css";
 
 export default function ProfileUser() {
   const [profile , setProfile] = useState({}) 
+  const [loading , setLoading] = useState(false)
   let {id} = useParams()
 
   useEffect(()=>{
@@ -16,6 +19,7 @@ export default function ProfileUser() {
           let response = await axios.get(`http://localhost:5000/user/get-detail-user/${id}` , {headers :{
             Authorization : `Bearer ${localStorage.getItem("token")}`
           }})
+          setLoading(true)
           setProfile(response.data.userData)
       }
       
@@ -32,8 +36,16 @@ export default function ProfileUser() {
   }
 
   if(Cookies.get("userID")){
+    if(loading === false){
+          return (
+            <Loading />
+          )
+    }
+    else{
+
     return (
       <div className="app__container">
+        <Navbar/>
       {/* <div className="grid wide container__profile-user">
         <h1 className="container__profile-header">My Profile</h1>
       </div> */}
@@ -147,6 +159,7 @@ export default function ProfileUser() {
     </div>
     );
   }
+}
   else{
     window.location.href = "/login"
   }

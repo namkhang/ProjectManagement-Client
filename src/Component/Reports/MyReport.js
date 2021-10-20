@@ -5,11 +5,13 @@ import React, { useEffect, useState } from 'react';
 import Footer from '../Layouts/Footer'
 import Navbar from '../Layouts/Navbar'
 import SideBar from '../Layouts/SideBar'
+import Loading from '../Loading/Loading'
 
 import './MyReport.css'
 
 const MyReport = (props) => {
     const [report , setReport] = useState([])
+    const [loading , setLoading] = useState(false)
 
     useEffect(()=>{
       async  function getData(){
@@ -17,6 +19,7 @@ const MyReport = (props) => {
         let response = await axios.get(`http://localhost:5000/user/my-report/${userID}` , {headers : {
             Authorization : `Bearer ${localStorage.getItem("token")}`
         }})
+        setLoading(true)
         setReport(response.data.dataReport)
     }
     getData()
@@ -28,6 +31,12 @@ const MyReport = (props) => {
     }
 
     if(Cookies.get("userID")){
+        if(loading === false){
+            return (
+                <Loading />
+            )
+        }
+        else{
         return (
             <div>
             <Navbar/>
@@ -88,6 +97,7 @@ const MyReport = (props) => {
           
         );
     }
+}
     else{
         window.location.href = "/login"
     }

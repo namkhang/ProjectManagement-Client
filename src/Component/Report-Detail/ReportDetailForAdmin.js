@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import React, { useEffect, useState } from 'react';
+import Loading from '../Loading/Loading'
 import io from "socket.io-client"
 import { useParams } from 'react-router';
 import Navbar from '../Layouts/NavbarForMentor';
@@ -14,6 +15,7 @@ const ReportDetailForAdmin = () => {
     let {id} = useParams()
     const userData = localStorage.getItem("adminData") ? JSON.parse(localStorage.getItem("adminData")) : {}
     const [report , setReport] = useState({reportData : [] , reportComment : []})
+    const [loading , setLoading] = useState(false)
     const [project , setProject] = useState({})
     
 
@@ -31,7 +33,7 @@ const ReportDetailForAdmin = () => {
                         Authorization : `Bearer ${localStorage.getItem("token")}`
                     }
                 })
-                
+                setLoading(true)
                 setReport(response.data.reportData)
                 setProject(response2.data.projectData)
         }
@@ -76,6 +78,12 @@ const ReportDetailForAdmin = () => {
     }
 
     if(Cookies.get("adminID")){
+        if(loading === false){
+            return (
+                <Loading />
+            )
+        }
+        else{
         return (
             <>
                 <Navbar/>
@@ -186,6 +194,7 @@ const ReportDetailForAdmin = () => {
             </>
         );
     }
+}
    else{
        window.location.href = "/login"
    }

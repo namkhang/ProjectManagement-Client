@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import Navbar from '../Layouts/Navbar';
+import Loading from '../Loading/Loading'
 import './Home.css'
 import axios from 'axios'
 import Cookies from 'js-cookie';
@@ -10,6 +11,7 @@ let socket = io("http://localhost:5000/")
 
 function Home(props) {
     const [post , setPost] = useState([])
+    const [loading , setLoading] = useState(false)
     const userID = Cookies.get("userID")
     const token = localStorage.getItem("token") ? localStorage.getItem("token") : ""
     const {fullname : userName_commnent , image} = JSON.parse(localStorage.getItem("userData")) ? JSON.parse(localStorage.getItem("userData")) : {fullname : ""}
@@ -19,7 +21,9 @@ function Home(props) {
             let response = await axios.get("http://localhost:5000/user/get_all_post" , {headers : {
                 Authorization : `Bearer ${token}`
             }});
+            setLoading(true)
             setPost(response.data.dataPost)
+           
         }
         getData()
     } , [])
@@ -69,6 +73,12 @@ function Home(props) {
     }
 
     if(userID){
+        if(loading === false){
+                    return (
+                        <Loading />
+                    )
+        }
+        else{
         return (
             <div>
             <Navbar/>
@@ -193,10 +203,11 @@ function Home(props) {
             </div>
         );
     }
+}
     else{
         window.location.href = "/login"
     }
-   
+
 }
 
 export default Home;

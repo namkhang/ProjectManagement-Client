@@ -6,6 +6,7 @@ import Navbar from '../Layouts/Navbar'
 import Cookies from "js-cookie";
 import axios from "axios";
 import io from "socket.io-client"
+import Loading from '../Loading/Loading'
 
 
 let socket = io("http://localhost:5000/")
@@ -14,6 +15,7 @@ const ChatPage = (props) => {
   const userData = localStorage.getItem("userData") ? JSON.parse(localStorage.getItem("userData")) : ""
   const [listChats , setListChats] = useState([])
   const receiver  = useRef([])
+  const [loading , setLoading] = useState(false)
   const [chats , setChats] = useState([])
 
  
@@ -30,7 +32,9 @@ const ChatPage = (props) => {
               receiverInformation.push(result[0])
             })
             receiver.current = receiverInformation
+            setLoading(true)
             setListChats(response.data.dataChatForUser)
+
       }
       getData()
   } , [])
@@ -142,6 +146,13 @@ const ChatPage = (props) => {
   }
 
   if(Cookies.get("userID")){
+    if(loading === false){
+      return (
+        <Loading />
+      )
+    }
+    else{
+
     return (
       <div>
         <Navbar />
@@ -269,6 +280,7 @@ const ChatPage = (props) => {
       </div>
     );
   }
+}
   else{
       window.location.href = "/login"
   }

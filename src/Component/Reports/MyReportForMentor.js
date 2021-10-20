@@ -5,12 +5,14 @@ import React, { useEffect, useState } from 'react';
 import Footer from '../Layouts/Footer'
 import Navbar from '../Layouts/NavbarForMentor'
 import SideBar from '../Layouts/SideBar'
+import Loading from '../Loading/Loading'
 
 import './MyReport.css'
 
 const MyReportForMentor = (props) => {
     const [report , setReport] = useState([])
     const [project , setProject] = useState([])
+    const [loading , setLoading] = useState(false)
 
     useEffect(()=>{
       async  function getData(){
@@ -18,6 +20,7 @@ const MyReportForMentor = (props) => {
         let response = await axios.get(`http://localhost:5000/mentor/my-project/${mentorID}` , {headers : {
             Authorization : `Bearer ${localStorage.getItem("token")}`
         }})
+        setLoading(true)
         setProject(response.data.dataProject)
     }
     getData()
@@ -37,6 +40,12 @@ const MyReportForMentor = (props) => {
 }
 
     if(Cookies.get("mentorID")){
+        if(loading === false){
+            return (
+                <Loading />
+            )
+        }
+        else{
         return (
             <div>
             <Navbar/>
@@ -110,6 +119,7 @@ const MyReportForMentor = (props) => {
           
         );
     }
+}
     else{
         window.location.href = "/login"
     }

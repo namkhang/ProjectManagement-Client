@@ -1,3 +1,5 @@
+import axios from "axios";
+import Cookies from "js-cookie";
 import React, { Fragment, useState } from "react";
 import {
   Dropdown,
@@ -12,35 +14,36 @@ import {
 
 const Example = () => {
   const [dropdownOpen, setdropdownOpen] = useState(false);
+  const [search , setSearch] = useState([])
+
+
+
+  async function onSearch(event){
+      let response = await axios.get("http://localhost:5000/user/search-profile" , {
+        headers : {
+          Authorization : `Bearer ${localStorage.getItem("token")}`
+        },
+        params :{
+          name : event.target.value
+        }
+      })
+      setSearch(response.data.result);
+  }
+
+  function toProfile(userID){
+      window.location.href = Cookies.get("userID") ?  `http://localhost:3000/profile/${userID}` : Cookies.get("mentorID") ? `http://localhost:3000/mentor/profile/${userID}` : `http://localhost:3000/admin/profile/${userID}`
+  }
 
   const toggle = () => {
     setdropdownOpen(!dropdownOpen);
   };
 
-  const options = [
-    {
-      label: "Section One",
-      value: "one",
-      options: [
-        { value: "one", label: "One" },
-        { value: "two", label: "Two" },
-      ],
-    },
-    {
-      label: "Section Two",
-      value: "two",
-      options: [
-        { value: "three", label: "Three" },
-        { value: "four", label: "Four" },
-      ],
-    }
-  ];
 
   return (
     <Dropdown isOpen={dropdownOpen} toggle={toggle}>
       <DropdownToggle tag="div" onClick={toggle}>
         <InputGroup>
-          <Input />
+          <Input onKeyUp={onSearch} />
           <InputGroupAddon addonType="append">
             <Button>
               <i className="fa fa-chev" />
@@ -49,12 +52,9 @@ const Example = () => {
         </InputGroup>
       </DropdownToggle>
       <DropdownMenu>
-        {options.map((group) => (
+        {search.map((result) => (
           <Fragment>
-
-            {group.options.map((option) => (
-              <DropdownItem key={option.value}> <img style={{width:'30px', height:'30px', borderRadius:'50%', marginRight:'15px' }} className='img_user_search' src='https://scontent.fdad3-1.fna.fbcdn.net/v/t1.6435-9/105037693_296643991531524_854097983083770554_n.jpg?_nc_cat=110&ccb=1-5&_nc_sid=09cbfe&_nc_ohc=DWRQUtDSmQwAX8_SjP3&_nc_ht=scontent.fdad3-1.fna&oh=9dbfea372624d99f86d2669e24d33174&oe=61940636'/>{option.label}</DropdownItem>
-            ))}
+              <DropdownItem onClick={() => toProfile(result._id)}> <img style={{width:'30px', height:'30px', borderRadius:'50%', marginRight:'15px' }} className='img_user_search' src={result.image}/>{result.fullname}</DropdownItem>
           </Fragment>
         ))}
       </DropdownMenu>

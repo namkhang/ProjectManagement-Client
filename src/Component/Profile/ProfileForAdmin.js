@@ -2,6 +2,9 @@ import axios from "axios";
 import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
+import Navbar from '../Layouts/NavbarForAdmin';
+import Loading from '../Loading/Loading'
+
 
 import ShowMoreText from "react-show-more-text";
 import "./styles.css";
@@ -9,6 +12,7 @@ import "./styles.css";
 
 export default function ProfileAdmin() {
   const [profile , setProfile] = useState({}) 
+  const [loading , setLoading] = useState(false)
   let {id} = useParams()
 
   useEffect(()=>{
@@ -16,6 +20,7 @@ export default function ProfileAdmin() {
           let response = await axios.get(`http://localhost:5000/user/get-detail-user/${id}` , {headers :{
             Authorization : `Bearer ${localStorage.getItem("token")}`
           }})
+          setLoading(true)
           setProfile(response.data.userData)
       }
       
@@ -24,16 +29,24 @@ export default function ProfileAdmin() {
 
   async function openMessage(){
     if(Cookies.get("adminID") !== id){
-      let response = await axios.post(`http://localhost:5000/user/create-new-chat` , {sender : Cookies.get("userID") , receiver : id}, {headers :{
+      let response = await axios.post(`http://localhost:5000/user/create-new-chat` , {sender : Cookies.get("adminID") , receiver : id}, {headers :{
         Authorization : `Bearer ${localStorage.getItem("token")}`
       }})
-      window.location.href = '/chat'
+      window.location.href = '/admin/chat'
     }
   }
 
   if(Cookies.get("adminID")){
+    if(loading === false){
+      return (
+        <Loading />
+      )
+    }
+    else{
+
     return (
       <div className="app__container">
+        <Navbar />
       {/* <div className="grid wide container__profile-user">
         <h1 className="container__profile-header">My Profile</h1>
       </div> */}
@@ -147,6 +160,7 @@ export default function ProfileAdmin() {
     </div>
     );
   }
+}
   else{
     window.location.href = "/login"
   }

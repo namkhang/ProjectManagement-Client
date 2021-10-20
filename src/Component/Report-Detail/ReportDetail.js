@@ -1,6 +1,7 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import React, { useEffect, useState } from 'react';
+import Loading from '../Loading/Loading'
 import io from "socket.io-client"
 import { useParams } from 'react-router';
 import Navbar from '../Layouts/Navbar';
@@ -13,6 +14,7 @@ let socket = io("http://localhost:5000/")
 const ReportDetail = () => {
     let {id} = useParams()
     const userData = localStorage.getItem("userData") ? JSON.parse(localStorage.getItem("userData")) : {}
+    const [loading , setLoading] = useState(false)
     const [report , setReport] = useState({reportData : [] , reportComment : []})
     const [project , setProject] = useState({})
     
@@ -31,7 +33,7 @@ const ReportDetail = () => {
                         Authorization : `Bearer ${localStorage.getItem("token")}`
                     }
                 })
-                
+                setLoading(true)
                 setReport(response.data.reportData)
                 setProject(response2.data.projectData)
         }
@@ -75,6 +77,12 @@ const ReportDetail = () => {
       }
 
     if(Cookies.get("userID")){
+        if(loading === false){
+                return (
+                    <Loading />
+                )
+        }
+        else{
         return (
             <>
                 <Navbar/>
@@ -185,6 +193,7 @@ const ReportDetail = () => {
             </>
         );
     }
+}
    else{
        window.location.href = "/login"
    }
