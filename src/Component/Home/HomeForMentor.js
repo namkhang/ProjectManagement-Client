@@ -73,6 +73,10 @@ function HomeForMentor(props) {
             setPost(response.data.newPost)
     }
 
+    function toProfile(userID){
+        window.location.href = `/mentor/profile/${userID}`
+    }
+
     if(mentorID){
         if(loading === false){
                     return (
@@ -90,7 +94,7 @@ function HomeForMentor(props) {
     <div style={{marginTop : "30px"}} className="row">
     <div className="col-md-3"></div>
     <div className="col-md-6">
-        <div className="header-Stt">
+        <div onClick={()=> toProfile(i.userID)} className="header-Stt">
             <span className="User-img"><img src={i.image} className="img-fluid rounded-start rounded-circle Avt-User mr-2" alt="..." />
             </span>
             <span className="User-name mr-1">{i.userName} </span>
