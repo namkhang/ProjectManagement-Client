@@ -4,9 +4,9 @@ import axios from "axios"
 import Loading from '../Loading/Loading'
 
 
-import Navbar from "../Layouts/NavbarForAdmin"
+import Navbar from "../Layouts/Navbar"
 
-const CreateProject = () => {
+const CreateProjectForStudent = () => {
     const [elementInput , setElementInput] = useState([{id : "field1" , value : "0"}])
     const [loading  ,setLoading] = useState(false)
     const [mentor , setMentor] = useState([])
@@ -55,26 +55,23 @@ const CreateProject = () => {
     }
 
     async function OnCreateProject(){
-        let member = []
+           
             function HandleNewArray(i){
                    let obj = {}
                    obj.userID = document.getElementById(i.id).value
                    obj.fullname =  document.getElementById(document.getElementById(i.id).value).innerText
                    return obj
             }
-            if(elementInput.length > 1){
-                 member = elementInput.map(HandleNewArray)
-            }
-               
-        
+    
+            let member = elementInput.map(HandleNewArray)
             
             let body = {
                 projectName : document.getElementById("projectname").value,
                 mentorID : document.getElementById("mentor").value,
                 mentorName : document.getElementById(document.getElementById("mentor").value).innerText,
                 member ,
-                creatorID : Cookies.get("adminID"),
-                creatorName : JSON.parse(localStorage.getItem("adminData")).fullname,
+                creatorID : Cookies.get("userID"),
+                creatorName : JSON.parse(localStorage.getItem("userData")).fullname,
                 description :  document.getElementById("description").value
             }
             let response = await axios.post("http://localhost:5000/admin/create-project" , body , {
@@ -84,12 +81,12 @@ const CreateProject = () => {
             })
             if(response.data.success === true){
                 alert("Created")
-                window.location.href ="/admin/list-project"
+                window.location.href ="/my-project"
             }
 
     }
 
-    if(Cookies.get("adminID")){
+    if(Cookies.get("userID")){
         if(loading === false){
             return (
                 <Loading />
@@ -192,4 +189,4 @@ const CreateProject = () => {
    
 }
 
-export default CreateProject;
+export default CreateProjectForStudent;

@@ -26,6 +26,8 @@ import ReportDetailForAdmin from './Component/Report-Detail/ReportDetailForAdmin
 import CreateProject from './Component/Project/CreateProject';
 import ListProject from './Component/Project/ListProject';
 import EditProject from './Component/Project/EditProject';
+import MyProject from './Component/Project/MyProject';
+import CreateProjectForStudent from './Component/Project/CreateProjectForStudent';
 
 function App() {
   return (
@@ -52,6 +54,8 @@ function App() {
         <Route exact path="/report-detail/:id" component={ReportDetail} />
         <Route exact path="/mentor/report-detail/:id" component={ReportDetailForMentor} />
         <Route exact path="/admin/report-detail/:id" component={ReportDetailForAdmin} />
+        <Route exact path="/my-project" component={MyProject} />
+        <Route exact path="/create-project" component={CreateProjectForStudent} />
         <Route exact path="/admin/create-project" component={CreateProject} />
         <Route exact path="/admin/list-project" component={ListProject} />
         <Route exact path="/admin/edit-project/:id" component={EditProject} />
