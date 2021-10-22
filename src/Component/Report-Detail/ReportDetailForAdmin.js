@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Loading from '../Loading/Loading'
 import io from "socket.io-client"
 import { useParams } from 'react-router';
-import Navbar from '../Layouts/NavbarForMentor';
+import Navbar from '../Layouts/NavbarForAdmin';
 import SideBar from '../Layouts/SideBar';
 import './ReportDetail.css'
 
