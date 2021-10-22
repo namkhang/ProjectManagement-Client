@@ -25,6 +25,7 @@ import ReportDetailForMentor from './Component/Report-Detail/ReportDetailForMent
 import ReportDetailForAdmin from './Component/Report-Detail/ReportDetailForAdmin';
 import CreateProject from './Component/Project/CreateProject';
 import ListProject from './Component/Project/ListProject';
+import EditProject from './Component/Project/EditProject';
 
 function App() {
   return (
@@ -53,6 +54,7 @@ function App() {
         <Route exact path="/admin/report-detail/:id" component={ReportDetailForAdmin} />
         <Route exact path="/admin/create-project" component={CreateProject} />
         <Route exact path="/admin/list-project" component={ListProject} />
+        <Route exact path="/admin/edit-project/:id" component={EditProject} />
       </Switch>
     </div>
   );

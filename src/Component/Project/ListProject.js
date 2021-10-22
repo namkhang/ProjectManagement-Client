@@ -5,37 +5,29 @@ import React, { useEffect, useState } from 'react';
 import Footer from '../Layouts/Footer'
 import Navbar from '../Layouts/NavbarForAdmin'
 import SideBar from '../Layouts/SideBar'
-import Loading from '../Loading/Loading'
+
 
 import '../Reports/MyReport.css'
 
 const ListProject = (props) => {
     const [project , setProject] = useState([])
-    const [loading , setLoading] = useState(false)
 
-    useEffect(()=>{
-      async  function getData(){
-        let response = await axios.get(`http://localhost:5000/admin/list-project` , {headers : {
+
+
+
+    function ToEditProject(projectID){
+            window.location.href = `http://localhost:3000/admin/edit-project/${projectID}`
+    }
+
+    async function getProjectByStatus(event){
+        let response = await axios.get(`http://localhost:5000/admin/list-project/${event.target.value}` , {headers : {
             Authorization : `Bearer ${localStorage.getItem("token")}`
         }})
-        setLoading(true)
         setProject(response.data.dataProject)
-    }
-    getData()
-           
-    } , [])
-
-    function ToDetailPage(reportID){
-            window.location.href = `http://localhost:3000/report-detail/${reportID}`
     }
 
     if(Cookies.get("adminID")){
-        if(loading === false){
-            return (
-                <Loading />
-            )
-        }
-        else{
+
         return (
             <div>
             <Navbar/>
@@ -51,9 +43,22 @@ const ListProject = (props) => {
                                 <div className="row">
     
                      <div className="col-xl-6">
+
+                     <div className="form-group">
+                                                <label className="form-label">Satus </label>
+                                                <select onChange={getProjectByStatus} defaultValue="0" id="project" className="form-select" aria-label="Default select example">
+                                                    <option value="0"  disabled>Choose Project Satus...</option>
+                                                    <option value="Ok">Ok</option>
+                                                    <option value="Pending">Pending</option>
+                                                        
+                                                            
+                                                  
+                                                   
+                                                </select>
+                    </div>
                 
                     {project.map(i => 
-    <div onClick={() => ToDetailPage(i._id)} className="card card-margin shadow p-3 mb-5">
+    <div onClick={() => ToEditProject(i._id)} className="card card-margin shadow p-3 mb-5">
     <div className="card-header no-border">
         <h5 className="card-title">{i.projectName}</h5>
     </div>
@@ -95,7 +100,6 @@ const ListProject = (props) => {
                 </div>
           
         );
-    }
 }
     else{
         window.location.href = "/login"

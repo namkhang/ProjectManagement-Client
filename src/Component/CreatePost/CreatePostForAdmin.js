@@ -2,7 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import React from 'react';
 
-import NavbarForMentor from '../Layouts/NavbarForMentor'
+import NavbarForMentor from '../Layouts/NavbarForAdmin'
 import SideBar from '../Layouts/SideBar'
 
 const CreatepostForAdmin = () => {
