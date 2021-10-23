@@ -28,6 +28,7 @@ const Navbar = () => {
                         <li><a className="dropdown-item" href="/my-report">My Report</a></li>
                         <li><a className="dropdown-item" href="/my-project">My Project</a></li>
                         <li><a className="dropdown-item" href="/create-report">Create Report</a></li>
+                        <li><a className="dropdown-item" href="/choose-project">Choose Project</a></li>
                         <li><a className="dropdown-item" href="/create-project">Create Project</a></li>
                         <li><a className="dropdown-item" href="/chat">Chat</a></li>
                         <li><hr className="dropdown-divider" /></li>

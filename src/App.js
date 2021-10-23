@@ -28,6 +28,8 @@ import ListProject from './Component/Project/ListProject';
 import EditProject from './Component/Project/EditProject';
 import MyProject from './Component/Project/MyProject';
 import CreateProjectForStudent from './Component/Project/CreateProjectForStudent';
+import ListProjectForStudent from './Component/Project/ListProjectForStudent';
+import EditProjectForStudent from './Component/Project/EditProjectForStudent';
 
 function App() {
   return (
@@ -55,6 +57,8 @@ function App() {
         <Route exact path="/mentor/report-detail/:id" component={ReportDetailForMentor} />
         <Route exact path="/admin/report-detail/:id" component={ReportDetailForAdmin} />
         <Route exact path="/my-project" component={MyProject} />
+        <Route exact path="/choose-project" component={ListProjectForStudent} />
+        <Route exact path="/edit-project-for-student/:id" component={EditProjectForStudent} />
         <Route exact path="/create-project" component={CreateProjectForStudent} />
         <Route exact path="/admin/create-project" component={CreateProject} />
         <Route exact path="/admin/list-project" component={ListProject} />
