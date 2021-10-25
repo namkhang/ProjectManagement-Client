@@ -55,7 +55,7 @@ const CreateProjectForStudent = () => {
     }
 
     async function OnCreateProject(){
-           
+           if(JSON.parse(localStorage.getItem("userData")).status === "Pending"){
             function HandleNewArray(i){
                    let obj = {}
                    obj.userID = document.getElementById(i.id).value
@@ -83,6 +83,10 @@ const CreateProjectForStudent = () => {
                 alert("Created")
                 window.location.href ="/my-project"
             }
+        }
+        else{
+            alert("Bạn đã có dự án rồi !!!")
+        }
 
     }
 

@@ -2,26 +2,28 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import React, { useEffect, useState } from 'react';
 import Loading from '../Loading/Loading'
-import Navbar from '../Layouts/Navbar';
+import Navbar from '../Layouts/NavbarForMentor';
 import SideBar from '../Layouts/SideBar';
 import '../Report-Detail/ReportDetail.css'
+import { useParams } from 'react-router';
 
 
 
-const MyProject = () => {
+const ProjectDetailForMentor = () => {
+    const {id} = useParams()
     const [loading , setLoading] = useState(false)
     const [project , setProject] = useState({member : []})
     
 
     useEffect(()=>{
         async function getData(){
-                let response = await axios.get(`http://localhost:5000/user/my-project/${Cookies.get("userID")}` , {
+                let response = await axios.get(`http://localhost:5000/admin/get-project-detail/${id}` , {
                     headers : {
                         Authorization : `Bearer ${localStorage.getItem("token")}`
                     }
                 })
                     setLoading(true)
-                    setProject(response.data.result)
+                    setProject(response.data.dataProject)
                
         }
         getData()
@@ -29,7 +31,7 @@ const MyProject = () => {
 
 
 
-    if(Cookies.get("userID")){
+    if(Cookies.get("mentorID")){
         if(loading === false){
                 return (
                     <Loading />
@@ -59,9 +61,9 @@ const MyProject = () => {
                                                         <div className="mb-2"><span>Mentor:</span></div>
                                                     </div>
                                                     <div className="col-md-5">
-                                                        <div className="mb-2"><a href={`/profile/${project.creatorID}`}>{project.creatorName}</a></div>
+                                                        <div className="mb-2"><a href={`/mentor/profile/${project.creatorID}`}>{project.creatorName}</a></div>
                                                         <div className="mb-2"><a>{project.member.length}</a></div>
-                                                        <div className="mb-2"><a href={`/profile/${project.mentorID}`}>{project.mentorName}</a></div>
+                                                        <div className="mb-2"><a href={`/mentor/profile/${project.mentorID}`}>{project.mentorName}</a></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -119,7 +121,7 @@ const MyProject = () => {
                                                 <ul>
                                                     {project.member.map(i => 
                                                         <li>
-                                                            <p><a href={`/profile/${i.userID}`}>{i.fullname}</a></p>
+                                                            <p><a href={`/mentor/profile/${i.userID}`}>{i.fullname}</a></p>
                                                         </li>
                                                     )}
                                                 
@@ -158,4 +160,4 @@ const MyProject = () => {
    }
 }
 
-export default MyProject;
+export default ProjectDetailForMentor;

@@ -44,28 +44,35 @@ const CreateReport = () => {
     }   
 
     async function createReport(){
-            let reportData = {}
-            for (let i in reportTemplateData){
-                reportData[reportTemplateData[i]] = document.getElementById(reportTemplateData[i]).value
-            }
-            let body  = {
-                reportName : document.getElementById("reportName").value,
-                reporterID : userData._id ,
-                reporterName : userData.fullname ,
-                projectID : document.getElementById("project").value , 
-                reportTemplateID : document.getElementById("reporttemplate").value ,
-                reportData 
-
-            }
-            let response = await axios.post(`http://localhost:5000/user/create-report` ,body ,  {
-                headers : {
-                    Authorization : `Bearer ${localStorage.getItem("token")}`
+            if(userData.status === "Ok"){
+                let reportData = {}
+                for (let i in reportTemplateData){
+                    reportData[reportTemplateData[i]] = document.getElementById(reportTemplateData[i]).value
                 }
-            })
-
-            if(response.data.success === true){
-                    alert("Created")
+                let body  = {
+                    reportName : document.getElementById("reportName").value,
+                    reporterID : userData._id ,
+                    reporterName : userData.fullname ,
+                    projectID : document.getElementById("project").value , 
+                    reportTemplateID : document.getElementById("reporttemplate").value ,
+                    reportData 
+    
+                }
+                let response = await axios.post(`http://localhost:5000/user/create-report` ,body ,  {
+                    headers : {
+                        Authorization : `Bearer ${localStorage.getItem("token")}`
+                    }
+                })
+    
+                if(response.data.success === true){
+                        alert("Created")
+                }
             }
+            else{
+                alert("Bạn chưa có project để report !!!")
+            }
+
+         
             
     }
 
