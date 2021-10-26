@@ -27,6 +27,7 @@ const NavbarForMentor = () => {
                     <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                     <li><a className="dropdown-item" href="/mentor/my-report">My Report</a></li>
                     <li><a className="dropdown-item" href="/mentor/my-project">My Project</a></li>
+                    <li><a className="dropdown-item" href="/mentor/my-reporttemplate">My Report Template</a></li>
                     <li><a className="dropdown-item" href="/mentor/create-post">Create Post</a></li>
                         <li><a className="dropdown-item" href="/mentor/chat">Chat</a></li>
                         <li><a className="dropdown-item" href="/mentor/create-report-template">Create Report Template</a></li>

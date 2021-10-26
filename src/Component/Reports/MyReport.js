@@ -56,7 +56,7 @@ const MyReport = (props) => {
                     {report.map(i => 
     <div onClick={() => ToDetailPage(i._id)} className="card card-margin shadow p-3 mb-5">
     <div className="card-header no-border">
-        <h5 className="card-title">Report Capstone 2</h5>
+        <h5 className="card-title">Capstone</h5>
     </div>
     <div className="card-body pt-0">
         <div className="widget-49">

@@ -29,6 +29,7 @@ const NavbarForAdmin = () => {
                         <li><a className="dropdown-item" href="/admin/chat">Chat</a></li>
                         <li><a className="dropdown-item" href="/admin/list-report">Report</a></li>
                         <li><a className="dropdown-item" href="/admin/list-project">Project</a></li>
+                        <li><a className="dropdown-item" href="/admin/my-reporttemplate">Report Template</a></li>
                         <li><a className="dropdown-item" href="/admin/create-project">Create Project</a></li>
                         <li><a className="dropdown-item" href="/admin/create-post">Create Post</a></li>
                         <li><a className="dropdown-item" href="/admin/create-report-template">Create Report Template</a></li>

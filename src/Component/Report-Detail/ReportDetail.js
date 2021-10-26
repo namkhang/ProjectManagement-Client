@@ -96,6 +96,18 @@ const ReportDetail = () => {
           window.location.href = `/edit-report-for-student/${id}`
       }
 
+      async function DeleteCommentReport(createAt){
+                let response = await axios.delete(`http://localhost:5000/admin/delete-comment-report/${id}` , {
+                    headers : {
+                        Authorization : `Bearer ${localStorage.getItem("token")}`
+                    } ,
+                    params : {
+                        createAt
+                    }
+                })
+                setReport(response.data.newReport)
+      }
+
     if(Cookies.get("userID")){
         if(loading === false){
                 return (
@@ -191,7 +203,7 @@ const ReportDetail = () => {
                                                       <div onClick={() => toProfile(i2.userID_Comment)} className="user d-flex flex-row align-items-center"> <img src={i2.userImage_Comment} width="30" className="user-img rounded-circle mr-2"/> <span><small className="font-weight-bold text-primary">{i2.userName_Comment}</small>  <small className="font-weight-bold">{i2.content} </small></span> </div> <small>{i2.createAt_Comment}</small>
                                                   </div>
                                                   <div className="action d-flex justify-content-between mt-2 align-items-center">
-                                                      <div className="reply px-4"> <small>Remove</small></div>
+                                                        {userData._id === i2.userID_Comment  &&  <div onClick={() => DeleteCommentReport(i2.createAt_Comment)} className="reply px-4"> <small>Remove</small></div>} 
                                                       <div className="icons align-items-center"> <i className="fas fa-check-circle check-icon text-primary"></i> </div>
                                                   </div>
                                               </div>

@@ -33,6 +33,10 @@ import EditProjectForStudent from './Component/Project/EditProjectForStudent';
 import MyProjectForMentor from './Component/Project/MyProjectForMentor';
 import ProjectDetailForMentor from './Component/Project/ProjectDetailForMentor';
 import EditReportForStudent from './Component/Reports/EditReportForStudent';
+import MyReportTempalte from './Component/Report-Template/MyReportTemplate';
+import EditReportTemplate from './Component/Report-Template/EditReportTemplate';
+import MyReportTempalteForAdmin from './Component/Report-Template/MyReportTemplateForAdmin';
+import EditReportTemplateForAdmin from './Component/Report-Template/EditReportTemplateForAdmin';
 
 function App() {
   return (
@@ -49,6 +53,10 @@ function App() {
         <Route exact path="/my-report" component={MyReport} />
         <Route exact path="/edit-report-for-student/:id" component={EditReportForStudent} />
         <Route exact path="/mentor/my-report" component={MyReportForMentor} />
+        <Route exact path="/mentor/my-reporttemplate" component={MyReportTempalte} />
+        <Route exact path="/admin/my-reporttemplate" component={MyReportTempalteForAdmin} />
+        <Route exact path="/mentor/edit-reporttemplate/:id" component={EditReportTemplate} />
+        <Route exact path="/admin/edit-reporttemplate/:id" component={EditReportTemplateForAdmin} />
         <Route exact path="/admin/list-report" component={MyReportForAdmin} />
         <Route exact path="/create-report" component={CreateReport} />
         <Route exact path="/chat" component={ChatPage} />
