@@ -1,12 +1,16 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router';
 
-
+import Loading from '../Loading/Loading'
 import Navbar from '../Layouts/Navbar';
 import SideBar from '../Layouts/SideBar';
 
-const CreateReport = () => {
+const EditReportForStudent = () => {
+    const {id} = useParams()
+    const [loading , setLoading] = useState(false)
+    const [report , setReport] = useState({reportData : {} , reportComment : []})
     const [project , setProject] = useState([])
     const [reportTemplate , setReportTemplate] = useState([])
     const [reportTemplateData , setReportTemplateData] = useState([])
@@ -14,6 +18,12 @@ const CreateReport = () => {
 
     useEffect(() =>{
             async function getData(){
+                    let response = await axios.get(`http://localhost:5000/user/get-report-detail/${id}` , {
+                        headers : {
+                            Authorization : `Bearer ${localStorage.getItem("token")}`
+                        }
+                    })
+                
                     let responseProject = await axios.get("http://localhost:5000/user/get-list-project" , {
                         headers : {
                             Authorization : `Bearer ${localStorage.getItem("token")}`
@@ -24,19 +34,11 @@ const CreateReport = () => {
                             Authorization : `Bearer ${localStorage.getItem("token")}`
                         }
                     })
-
-                    function FilterProjectByUser(item){
-                        let count = item.member.filter(i => i.userID === Cookies.get("userID"))
-                        if(count.length > 0 ){
-                            return true
-                        }
-                        else{
-                            return false
-                        }
-                    }
-                    let result = responseProject.data.listProject.filter(FilterProjectByUser)
-                    setProject(result)
+                    setProject(responseProject.data.listProject)
                     setReportTemplate(responseReportTemplate.data.listReportTemplate)
+                    setReportTemplateData(Object.keys(response.data.reportData.reportData))
+                    setReport(response.data.reportData)
+                    setLoading(true)
             }
             getData()
     } , [])
@@ -54,7 +56,7 @@ const CreateReport = () => {
         document.getElementsByClassName(event.target.id)[0].innerHTML = event.target.value
     }   
 
-    async function createReport(){
+    async function UpdateReport(){
             if(userData.status === "Ok"){
                 let reportData = {}
                 for (let i in reportTemplateData){
@@ -69,19 +71,19 @@ const CreateReport = () => {
                     reportData 
     
                 }
-                let response = await axios.post(`http://localhost:5000/user/create-report` ,body ,  {
+                let response = await axios.put(`http://localhost:5000/user/update-report/${id}` ,body ,  {
                     headers : {
                         Authorization : `Bearer ${localStorage.getItem("token")}`
                     }
                 })
     
                 if(response.data.success === true){
-                        alert("Created")
-                        window.location.href = "/my-report"
+                        alert("Updated")
+                        window.location.reload()
                 }
             }
             else{
-                alert("Bạn chưa có project để report !!!")
+                alert("Bạn chưa có project để update !!!")
             }
 
          
@@ -89,6 +91,12 @@ const CreateReport = () => {
     }
 
     if(Cookies.get("userID")){
+        if(loading === false){
+            return (
+                <Loading />
+            )
+        }
+        else{
         return (
             <>
                 <Navbar/>
@@ -97,21 +105,21 @@ const CreateReport = () => {
                     <div id="layoutSidenav_content">
                         <main>
                             <div className="container-fluid px-4">
-                                <h1 className="mt-4">Create Report</h1>
+                                <h1 className="mt-4">Edit Report</h1>
                                 <ol className="breadcrumb mb-4">
                                     <li className="breadcrumb-item"> <a href="">Report</a> </li>
-                                    <li className="breadcrumb-item active">Create Report</li>
+                                    <li className="breadcrumb-item active">Edit Report</li>
                                 </ol>
                                 <div className="row justify-content-center">
                                     <div className="col-lg-7">
                                         <form className="needs-validation" >
                                             <div className="form-group">
                                                 <label className="form-label">Report Name *</label>
-                                                <input type="text" className="form-control" id="reportName" required />
+                                                <input defaultValue={report.reportName} type="text" className="form-control" id="reportName" required />
                                             </div>
                                             <div className="form-group">
                                                 <label className="form-label">Report Template </label>
-                                                <select onChange={selectReportTemplate} defaultValue="0" id="reporttemplate" className="form-select" aria-label="Default select example">
+                                                <select onChange={selectReportTemplate} defaultValue={report.reportTemplateID} id="reporttemplate" className="form-select" aria-label="Default select example">
                                                     <option value="0" disabled>Choose template...</option>
                                                     {reportTemplate.map( i2 => 
                                                             <option value={i2._id}>{i2.reportTemplateName}</option>
@@ -120,7 +128,7 @@ const CreateReport = () => {
                                             </div>
                                             <div className="form-group">
                                                 <label className="form-label">Project </label>
-                                                <select defaultValue="0" id="project" className="form-select" aria-label="Default select example">
+                                                <select defaultValue={report.projectID} id="project" className="form-select" aria-label="Default select example">
                                                     <option value="0"  disabled>Choose project...</option>
                                                     {project.map(i => 
                                                             <option value={i._id}>{i.projectName}</option>
@@ -133,7 +141,7 @@ const CreateReport = () => {
                                                     ?
                                                 <div className="form-group">
                                                     <label className="form-label">Description</label>
-                                                    <textarea onKeyUp={changeText} className="form-control" id="Description" rows="3"></textarea>
+                                                    <textarea defaultValue={report.reportData.Description} onKeyUp={changeText} className="form-control" id="Description" rows="3"></textarea>
                                                 </div>
                                                     :
                                                     i3 === "Reporter Name" 
@@ -146,7 +154,7 @@ const CreateReport = () => {
 
                                                 <div className="form-group">
                                                     <label className="form-label">{i3}</label>
-                                                    <input onKeyUp={changeText} type="text" className="form-control" id={i3} required />
+                                                    <input defaultValue={report.reportData[i3]} onKeyUp={changeText} type="text" className="form-control" id={i3} required />
                                                 </div>
                                             )}
                                           
@@ -173,7 +181,7 @@ const CreateReport = () => {
                                                 i5 === "Reporter Name" ?
                                                     <td className={i5}>{userData.fullname}</td>
                                                     :
-                                                    <td className={i5}></td>
+                                                    <td className={i5}>{report.reportData[i5]}</td>
 
                                             )}
                                                           
@@ -182,7 +190,7 @@ const CreateReport = () => {
                                 </table>
                                 <div className="row mt-4">
                                     <div className="col text-center">
-                                        <button onClick={createReport} className="btn btn-primary" type="submit">Create Report</button>
+                                        <button onClick={UpdateReport} className="btn btn-primary" type="submit">Update Report</button>
                                     </div>
                                 </div>            
                             </div>
@@ -204,6 +212,7 @@ const CreateReport = () => {
             </>
         );
     }
+}
     else{
         window.location.href = "/login"
     }
@@ -213,4 +222,4 @@ const CreateReport = () => {
    
 
 
-export default CreateReport;
+export default EditReportForStudent;

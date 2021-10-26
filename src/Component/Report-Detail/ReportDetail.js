@@ -76,6 +76,26 @@ const ReportDetail = () => {
           }
       }
 
+     async function DeleteReport(){
+            let confirm = window.confirm("Bạn có muốn xóa")
+            if(confirm === true){
+                let response = await axios.delete(`http://localhost:5000/user/delete-report/${id}` , {
+                    headers : {
+                        Authorization : `Bearer ${localStorage.getItem("token")}`
+                    }
+                })
+                if(response.data.success === true){
+                    alert("Success")
+                    window.location.href = "/my-report"
+                }
+            }
+     }
+
+
+      function EditReport(){
+          window.location.href = `/edit-report-for-student/${id}`
+      }
+
     if(Cookies.get("userID")){
         if(loading === false){
                 return (
@@ -92,6 +112,12 @@ const ReportDetail = () => {
                         <main>
                             <div className="container-fluid px-4">
                                 <h1 className="mt-4">{report.reportName}</h1>
+                                <button onClick={EditReport} style={{marginRight : "50px"}} className="msg_send_btn" type="button">
+                                            <i class="fas fa-edit"></i>
+                                </button>
+                                <button onClick={() => DeleteReport(id)} className="msg_send_btn" type="button">
+                                        <i className="fas fa-trash" aria-hidden="true" />
+                                </button>
                                 <ol className="breadcrumb mb-4">
                                 <li className="breadcrumb-item active">Report date: {report.createAt}</li>
                                     <li className="breadcrumb-item active">Project name: {report.projectName}</li>

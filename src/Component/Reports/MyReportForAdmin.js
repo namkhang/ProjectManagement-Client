@@ -34,6 +34,17 @@ const MyReportForAdmin = (props) => {
         setReport(response.data.dataReport)
     }
 
+    async function SendMail(){
+        let response = await axios.post("http://localhost:5000/admin/send-email" , {},{
+                    headers : {
+                        Authorization : `Bearer ${localStorage.getItem("token")}`
+                    }
+        })
+        if(response.data.success === true){
+            alert("Success")
+        }
+    }
+
     function ToDetailPage(reportID){
         window.location.href = `http://localhost:3000/admin/report-detail/${reportID}`
 }
@@ -54,6 +65,9 @@ const MyReportForAdmin = (props) => {
                         <main>
                             <div className="container-fluid px-4">
                                 <h1 className="mt-4">Report List</h1>
+                                <button onClick={SendMail} className="msg_send_btn" type="button">
+                                        <i className="fa fa-paper-plane-o" aria-hidden="true" />
+                                </button>
                                 <ol className="breadcrumb mb-4">
                                     <li className="breadcrumb-item active">Home</li>
                                 </ol>

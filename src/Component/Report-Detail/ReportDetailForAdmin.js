@@ -41,7 +41,7 @@ const ReportDetailForAdmin = () => {
     } ,[id])
 
     function toProfile(userID){
-        window.location.href = `http://localhost:3000/mentor/profile/${userID}`
+        window.location.href = `http://localhost:3000/admin/profile/${userID}`
     }
 
     async function CreateComment(){

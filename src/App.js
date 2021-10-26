@@ -32,6 +32,7 @@ import ListProjectForStudent from './Component/Project/ListProjectForStudent';
 import EditProjectForStudent from './Component/Project/EditProjectForStudent';
 import MyProjectForMentor from './Component/Project/MyProjectForMentor';
 import ProjectDetailForMentor from './Component/Project/ProjectDetailForMentor';
+import EditReportForStudent from './Component/Reports/EditReportForStudent';
 
 function App() {
   return (
@@ -46,6 +47,7 @@ function App() {
         <Route exact path="/mentor/create-report-template" component={CreateReportTemplate} />
         <Route exact path="/admin/create-report-template" component={CreateReportTemplateForAdmin} />
         <Route exact path="/my-report" component={MyReport} />
+        <Route exact path="/edit-report-for-student/:id" component={EditReportForStudent} />
         <Route exact path="/mentor/my-report" component={MyReportForMentor} />
         <Route exact path="/admin/list-report" component={MyReportForAdmin} />
         <Route exact path="/create-report" component={CreateReport} />
