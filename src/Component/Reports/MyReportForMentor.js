@@ -78,7 +78,7 @@ const MyReportForMentor = (props) => {
     
     <div onClick={() => ToDetailPage(i._id)} className="card card-margin shadow p-3 mb-5">
     <div className="card-header no-border">
-        <h5 className="card-title">Capstone</h5>
+        <h5 className="card-title">{i.projectName}</h5>
     </div>
     <div className="card-body pt-0">
         <div className="widget-49">
@@ -88,7 +88,7 @@ const MyReportForMentor = (props) => {
                     <span className="widget-49-date-month">{i.createAt.substring(3 , 5)}</span>
                 </div>
                 <div className="widget-49-meeting-info">
-                    <span className="widget-49-pro-title">{i.projectName}</span>
+                    <span className="widget-49-pro-title">{i.reportName}</span>
                     <span className="widget-49-meeting-time">{i.createAt.substring(11)}</span>
                 </div>
             </div>

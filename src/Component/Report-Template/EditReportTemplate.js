@@ -119,6 +119,21 @@ const EditReportTemplate = () => {
              
     }
 
+    async function DeleteReportTemplate(){
+        let confirm = window.confirm("Bạn có muốn xóa ?")
+        if(confirm === true){
+            let response = await axios.delete(`http://localhost:5000/admin/delete-reporttemplate/${id}` , {
+                headers : {
+                    Authorization : `Bearer ${localStorage.getItem("token")}`
+                }
+            })
+            if(response.data.success === true){
+                alert("Success")
+                window.location.href = "/mentor/my-reporttemplate"
+            }
+        }
+}
+
     if(Cookies.get("mentorID")){
 
         return (
@@ -189,6 +204,9 @@ const EditReportTemplate = () => {
                                 <div className="row mt-4">
                                     <div className="col text-center">
                                         <button onClick={updateReportTemplate} className="btn btn-primary" type="submit">Update Report Template</button>
+                                    </div>
+                                    <div className="col text-center">
+                                        <button onClick={DeleteReportTemplate} className="btn btn-primary" type="submit">Delete Report Template</button>
                                     </div>
                                 </div>            
                             </div>

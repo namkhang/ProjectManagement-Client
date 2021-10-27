@@ -104,6 +104,21 @@ const EditProject = () => {
 
     }
 
+    async function OnDeleteProject(){
+        let confirm = window.confirm("Bạn có muốn xóa ?")
+        if(confirm === true){
+            let response = await axios.delete(`http://localhost:5000/admin/delete-project/${id}` , {
+                headers : {
+                    Authorization : `Bearer ${localStorage.getItem("token")}`
+                }
+            })
+            if(response.data.success === true){
+                alert("Success")
+                window.location.href = "/admin/list-project"
+            }
+        }
+    }
+
     if(Cookies.get("adminID")){
         if(loading === false){
             return (
@@ -222,6 +237,9 @@ const EditProject = () => {
                                 <div className="row mt-4">
                                     <div className="col text-center">
                                         <button onClick={OnUpdateProject} className="btn btn-primary" type="submit">Update Project</button>
+                                    </div>
+                                    <div className="col text-center">
+                                        <button onClick={OnDeleteProject} className="btn btn-primary" type="submit">Delete Project</button>
                                     </div>
                                 </div>            
                             </div>

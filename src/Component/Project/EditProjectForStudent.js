@@ -69,6 +69,21 @@ const EditProjectForStudent = () => {
      
     }
 
+    async function OnDeleteProject(){
+        let confirm = window.confirm("Bạn có muốn xóa ?")
+        if(confirm === true){
+            let response = await axios.delete(`http://localhost:5000/admin/delete-project/${id}` , {
+                headers : {
+                    Authorization : `Bearer ${localStorage.getItem("token")}`
+                }
+            })
+            if(response.data.success === true){
+                alert("Success")
+                window.location.href = "/choose-project"
+            }
+        }
+    }
+
     if(Cookies.get("userID")){
         if(loading === false){
             return (
@@ -151,7 +166,7 @@ const EditProjectForStudent = () => {
                                                 )}   
                 
                                             </div>
-                                            {userData.status === "Pending" ? 
+                                            {userData.status === "Pending" &&  userData._id !== project.creatorID ? 
                                             <div className="form-group">
                                                 <label className="form-label">New Member *</label>
                                                 
@@ -176,6 +191,11 @@ const EditProjectForStudent = () => {
                                     <div className="col text-center">
                                         <button onClick={OnUpdateProject} className="btn btn-primary" type="submit">Update Project</button>
                                     </div>
+
+                                    {Cookies.get("userID") === project.creatorID &&  <div className="col text-center">
+                                        <button onClick={OnDeleteProject} className="btn btn-primary" type="submit">Delete Project</button>
+                                    </div>
+                                    }
                                 </div>            
                             </div>
                         </main>
