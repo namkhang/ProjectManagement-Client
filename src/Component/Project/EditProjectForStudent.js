@@ -161,7 +161,7 @@ const EditProjectForStudent = () => {
                                                                 <option value="0" disabled>Choose member...</option>
                                                                 <option disabled value={member.userID}>{member.fullname}</option>
                                                 
-                                                        </select> 
+                                                        </select>
                                             </div>
                                                 )}   
                 

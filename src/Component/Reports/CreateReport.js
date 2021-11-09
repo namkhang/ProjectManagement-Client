@@ -7,6 +7,7 @@ import Navbar from '../Layouts/Navbar';
 import SideBar from '../Layouts/SideBar';
 
 const CreateReport = () => {
+    const [elementInput , setElementInput] = useState([1])
     const [project , setProject] = useState([])
     const [reportTemplate , setReportTemplate] = useState([])
     const [reportTemplateData , setReportTemplateData] = useState([])
@@ -60,16 +61,20 @@ const CreateReport = () => {
                 for (let i in reportTemplateData){
                     reportData[reportTemplateData[i]] = document.getElementById(reportTemplateData[i]).value
                 }
-                let body  = {
-                    reportName : document.getElementById("reportName").value,
-                    reporterID : userData._id ,
-                    reporterName : userData.fullname ,
-                    projectID : document.getElementById("project").value , 
-                    reportTemplateID : document.getElementById("reporttemplate").value ,
-                    reportData 
-    
-                }
-                let response = await axios.post(`http://localhost:5000/user/create-report` ,body ,  {
+                let formData = new FormData()
+                formData.append("reportName" , document.getElementById("reportName").value)
+                formData.append("reporterID" , userData._id )
+                formData.append("reporterName" , userData.fullname)
+                formData.append("projectID" , document.getElementById("project").value)
+                formData.append("reportTemplateID" , document.getElementById("reporttemplate").value )
+                formData.append("reportData" , JSON.stringify(reportData))
+                    
+                elementInput.forEach((i) => {
+                    formData.append("files" , document.getElementById(`file${i}`).files[0])
+                })
+
+
+                let response = await axios.post(`http://localhost:5000/user/create-report` ,formData ,  {
                     headers : {
                         Authorization : `Bearer ${localStorage.getItem("token")}`
                     }
@@ -86,6 +91,19 @@ const CreateReport = () => {
 
          
             
+    }
+
+    function AddElement(){
+        let value = elementInput[elementInput.length - 1]
+        console.log(value);
+        let newElement = [...elementInput]
+        newElement.push(value + 1)
+        setElementInput(newElement)
+    }
+    function DeleteElement(){
+        let newElement = [...elementInput]
+        newElement.pop()
+        setElementInput(newElement)
     }
 
     if(Cookies.get("userID")){
@@ -149,6 +167,26 @@ const CreateReport = () => {
                                                     <input onKeyUp={changeText} type="text" className="form-control" id={i3} required />
                                                 </div>
                                             )}
+                                         <div className="form-group">
+                                         <label className="form-label">File</label>
+                                                {elementInput.map(i1 =>
+                                                 elementInput.length  === 1 ?  
+                                                 <div className="input-group mb-3">    
+                                                 <input  type="file" className="form-control" id={`file${i1}`} />
+                                                 </div>
+                                                        :
+                                                <div className="input-group mb-3">
+        
+                                                         <input  type="file" className="form-control" id={`file${i1}`} />     
+                                                        <div className="input-group-append">
+                                                        <button className="btn btn-danger" onClick={DeleteElement} type="button"><i className="fas fa-times"></i> Delete</button> 
+                                                        </div> 
+                                                </div>
+                                                    )}
+                                    </div>
+
+                                               
+                                                <button type="button" onClick={AddElement} className="btn btn-success"><i className="fas fa-plus"></i> Add</button>
                                           
                                             
                                         </form>

@@ -15,7 +15,7 @@ const ReportDetail = () => {
     let {id} = useParams()
     const userData = localStorage.getItem("userData") ? JSON.parse(localStorage.getItem("userData")) : {}
     const [loading , setLoading] = useState(false)
-    const [report , setReport] = useState({reportData : [] , reportComment : []})
+    const [report , setReport] = useState({reportData : [] , reportComment : [] , reference : []})
     const [project , setProject] = useState({})
     
 
@@ -177,6 +177,27 @@ const ReportDetail = () => {
                                     </div>
                                 </>
                                 )}
+
+                            <div className="row custom-line mb-2">
+                                    <span>Reference</span>
+                            </div>
+    
+                                    <div className="row">
+                                    <div className="col-md-12">
+                                        <div className="card mb-4">
+                                            <div className="card-body">
+                                                <ul>
+                                                    {report.reference.map(i6 =>
+                                                    <li>
+                                                            <p><a href={`http://localhost:5000${i6}`} >{i6.substring(17)}</a> </p>
+                                                    </li>
+                                                    )}
+                                                    
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
     
     
                                
