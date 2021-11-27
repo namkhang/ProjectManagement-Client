@@ -5,24 +5,27 @@ import Loading from '../Loading/Loading'
 import Navbar from '../Layouts/Navbar';
 import SideBar from '../Layouts/SideBar';
 import '../Report-Detail/ReportDetail.css'
+import { useParams } from 'react-router';
 
 
 
-const MyProject = () => {
+const UserDetail = () => {
+
+    const {id} = useParams()
     const [loading , setLoading] = useState(false)
-    const [project , setProject] = useState({member : []})
+    const [user , setUser] = useState({})
     
 
     useEffect(()=>{
         async function getData(){
-                let response = await axios.get(`http://localhost:5000/user/my-project/${Cookies.get("userID")}` , {
+                let response = await axios.get(`http://localhost:5000/admin/user-detail/${id}` , {
                     headers : {
                         Authorization : `Bearer ${localStorage.getItem("token")}`
                     }
                 })
-                if(response.data.result){
+                if(response.data.success === true){
                     setLoading(true)
-                    setProject(response.data.result)
+                    setUser(response.data.dataUser)
                 }
                 else{
                     alert("Bạn chưa có project !!!")
@@ -36,7 +39,7 @@ const MyProject = () => {
 
 
 
-    if(Cookies.get("userID")){
+    if(Cookies.get("adminID")){
         if(loading === false){
                 return (
                     <Loading />
@@ -51,9 +54,9 @@ const MyProject = () => {
                     <div id="layoutSidenav_content">
                         <main>
                             <div className="container-fluid px-4">
-                                <h1 className="mt-4">{project.projectName}</h1>
+                                <h1 className="mt-4">{user.fullname}</h1>
                                 <ol className="breadcrumb mb-4">
-                                <li className="breadcrumb-item active">Project create date: {project.createAt}</li>
+                        
                                 </ol>
                                 <div className="row">
                                     <div className="col-md-12">
@@ -61,39 +64,26 @@ const MyProject = () => {
                                             <div className="card-body">
                                                 <div className="row">
                                                     <div className="col-md-2 font-weight-bold">
-                                                        <div className="mb-2"><span>Project Creator Name:</span></div>
-                                                        <div className="mb-2"><span>Total Member:</span></div>
-                                                        <div className="mb-2"><span>Mentor:</span></div>
+                                                        <div className="mb-2"><span>Email:</span></div>
+                                                        <div className="mb-2"><span>MSSV:</span></div>
+                                                        <div className="mb-2"><span>Class:</span></div>
+                                                        <div className="mb-2"><span>Address:</span></div>
+                                                        <div className="mb-2"><span>Gender:</span></div>
+                                                        <div className="mb-2"><span>Phone:</span></div>
                                                     </div>
                                                     <div className="col-md-5">
-                                                        <div className="mb-2"><a href={`/profile/${project.creatorID}`}>{project.creatorName}</a></div>
-                                                        <div className="mb-2"><a>{project.member.length}</a></div>
-                                                        <div className="mb-2"><a href={`/profile/${project.mentorID}`}>{project.mentorName}</a></div>
+                                                        <div className="mb-2"><a>{user.email}</a></div>
+                                                        <div className="mb-2"><a>{user.MSSV}</a></div>
+                                                        <div className="mb-2"><a>{user.className}</a></div>
+                                                        <div className="mb-2"><a>{user.address}</a></div>
+                                                        <div className="mb-2"><a>{user.gender}</a></div>
+                                                        <div className="mb-2"><a>{user.phone}</a></div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            
-    
-                                    <div className="row custom-line mb-2">
-                                    <span>Status</span>
-                                    </div>
-    
-                                    <div className="row">
-                                    <div className="col-md-12">
-                                        <div className="card mb-4">
-                                            <div className="card-body">
-                                                <ul>
-                                                    <li>
-                                                        <p>{project.status}</p>
-                                                    </li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    </div>
 
                                     
                                     <div className="row custom-line mb-2">
@@ -106,7 +96,7 @@ const MyProject = () => {
                                             <div className="card-body">
                                                 <ul>
                                                     <li>
-                                                        <p>{project.description}</p>
+                                                        <p>{user.description}</p>
                                                     </li>
                                                 </ul>
                                             </div>
@@ -115,26 +105,9 @@ const MyProject = () => {
                                     </div>
 
                                     
-                                    <div className="row custom-line mb-2">
-                                    <span>Member</span>
-                                    </div>
+                        
     
-                                    <div className="row">
-                                    <div className="col-md-12">
-                                        <div className="card mb-4">
-                                            <div className="card-body">
-                                                <ul>
-                                                    {project.member.map(i => 
-                                                        <li>
-                                                            <p><a href={`/profile/${i.userID}`}>{i.fullname}</a></p>
-                                                        </li>
-                                                    )}
-                                                
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    </div>
+                           
                         
     
     
@@ -165,4 +138,4 @@ const MyProject = () => {
    }
 }
 
-export default MyProject;
+export default UserDetail;

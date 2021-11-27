@@ -37,12 +37,16 @@ import MyReportTempalte from './Component/Report-Template/MyReportTemplate';
 import EditReportTemplate from './Component/Report-Template/EditReportTemplate';
 import MyReportTempalteForAdmin from './Component/Report-Template/MyReportTemplateForAdmin';
 import EditReportTemplateForAdmin from './Component/Report-Template/EditReportTemplateForAdmin';
+import ListUser from './Component/UserManagement/ListUser';
+import UserDetail from './Component/UserManagement/UserDetail';
 
 function App() {
   return (
     <div className="App">
       <Switch >
         <Route exact path="/" component={Home} />
+        <Route exact path="/admin/list-user" component={ListUser} />
+        <Route exact path="/admin/user-detail/:id" component={UserDetail} />
         <Route exact path="/mentor" component={HomeForMentor} />
         <Route exact path="/admin" component={HomeForAdmin} />
         <Route exact path="/login" component={Login} />
