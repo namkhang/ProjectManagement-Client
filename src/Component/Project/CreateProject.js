@@ -55,19 +55,26 @@ const CreateProject = () => {
     }
 
     async function OnCreateProject(){
-        let member = []
-            function HandleNewArray(i){
-                   let obj = {}
-                   obj.userID = document.getElementById(i.id).value
-                   obj.fullname =  document.getElementById(document.getElementById(i.id).value).innerText
-                   return obj
+        if(document.getElementById("projectname").value === "" ||   document.getElementById("description").value === ""){
+            alert("Không để trống các trường")     
+      }
+      else{
+        if(document.getElementById("mentor").value === "0"){
+            alert("Chưa có mentor nào được chọn")
             }
-            if(elementInput.length > 1){
-                 member = elementInput.map(HandleNewArray)
-            }
-               
-        
-            
+        else{
+            try{
+                let member = []
+                function HandleNewArray(i){
+                    let obj = {}
+                    obj.userID = document.getElementById(i.id).value
+                    obj.fullname =  document.getElementById(document.getElementById(i.id).value).innerText
+                    return obj
+                }
+                if(elementInput.length > 1){
+                    member = elementInput.map(HandleNewArray)
+                }
+       
             let body = {
                 projectName : document.getElementById("projectname").value,
                 mentorID : document.getElementById("mentor").value,
@@ -86,6 +93,15 @@ const CreateProject = () => {
                 alert("Created")
                 window.location.href ="/admin/list-project"
             }
+            }
+            catch(err){
+                alert("Chưa chọn thông tin member")
+            }
+         
+        }
+                    
+      }
+       
 
     }
 
@@ -114,7 +130,7 @@ const CreateProject = () => {
                                         <form className="needs-validation" >
                                             <div className="form-group">
                                                 <label className="form-label">Project Name *</label>
-                                                <input type="text" className="form-control" id="projectname" required />
+                                                <input required type="text" className="form-control" id="projectname" required />
                                                 <div className="invalid-feedback">
                                                 Please provide a template name.
                                                 </div>

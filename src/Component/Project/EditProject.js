@@ -158,7 +158,7 @@ const EditProject = () => {
                                             </div>
                                             <div className="form-group">
                                                 <label className="form-label">Creator Name *</label>
-                                                <input disabled defaultValue={project.creatorName} type="text" className="form-control" id="projectname" required />
+                                                <input  disabled defaultValue={project.creatorName} type="text" className="form-control" id="projectname" required />
                                                 <div className="invalid-feedback">
                                                 Please provide a template name.
                                                 </div>

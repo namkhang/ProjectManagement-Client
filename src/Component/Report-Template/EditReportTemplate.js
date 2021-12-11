@@ -95,6 +95,10 @@ const EditReportTemplate = () => {
     }
 
     async function updateReportTemplate(){
+        if(document.getElementById("templateName").value === "" || document.getElementById("description").value === ""){
+                alert("Không để trống các trường")
+        }
+        else{
         let listField = []
         let userData = JSON.parse(localStorage.getItem("mentorData"))
         for (let i = 0 ; i < elementInput.length ; i++){
@@ -116,6 +120,7 @@ const EditReportTemplate = () => {
         else{
             alert("Fail")
         }
+    }
              
     }
 

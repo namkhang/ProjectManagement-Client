@@ -55,34 +55,59 @@ const CreateProjectForStudent = () => {
     }
 
     async function OnCreateProject(){
-           if(JSON.parse(localStorage.getItem("userData")).status === "Pending"){
-            function HandleNewArray(i){
-                   let obj = {}
-                   obj.userID = document.getElementById(i.id).value
-                   obj.fullname =  document.getElementById(document.getElementById(i.id).value).innerText
-                   return obj
+    if(JSON.parse(localStorage.getItem("userData")).status === "Pending"){
+        if(document.getElementById("projectname").value === "" ||   document.getElementById("description").value === ""){
+                  alert("Không để trống các trường")     
+  }
+    else{
+        if(elementInput.length === 0){
+       
+            alert("Chưa có member nào được thêm")
+    }
+    else{
+            if(document.getElementById("mentor").value === "0"){
+            alert("Chưa có mentor nào được chọn")
             }
-    
-            let member = elementInput.map(HandleNewArray)
-            
-            let body = {
-                projectName : document.getElementById("projectname").value,
-                mentorID : document.getElementById("mentor").value,
-                mentorName : document.getElementById(document.getElementById("mentor").value).innerText,
-                member ,
-                creatorID : Cookies.get("userID"),
-                creatorName : JSON.parse(localStorage.getItem("userData")).fullname,
-                description :  document.getElementById("description").value
-            }
-            let response = await axios.post("http://localhost:5000/admin/create-project" , body , {
-                headers : {
-                    Authorization : `Bearer ${localStorage.getItem("token")}`
+            else{
+            try{
+                function HandleNewArray(i){
+                    let obj = {}
+                    obj.userID = document.getElementById(i.id).value
+                    obj.fullname =  document.getElementById(document.getElementById(i.id).value).innerText
+                    return obj
                 }
-            })
-            if(response.data.success === true){
-                alert("Created")
-                window.location.href ="/my-project"
+
+                let member = elementInput.map(HandleNewArray)
+                let body = {
+                    projectName : document.getElementById("projectname").value,
+                    mentorID : document.getElementById("mentor").value,
+                    mentorName : document.getElementById(document.getElementById("mentor").value).innerText,
+                    member ,
+                    creatorID : Cookies.get("userID"),
+                    creatorName : JSON.parse(localStorage.getItem("userData")).fullname,
+                    description :  document.getElementById("description").value
+                }
+                let response = await axios.post("http://localhost:5000/admin/create-project" , body , {
+                    headers : {
+                        Authorization : `Bearer ${localStorage.getItem("token")}`
+                    }
+                })
+                if(response.data.success === true){
+                    alert("Created")
+                    window.location.href ="/my-project"
+                }
             }
+            catch(err){
+                alert("Chưa chọn thông tin member")
+            }
+
+            }       
+
+}
+    }
+           
+            
+           
         }
         else{
             alert("Bạn đã có dự án rồi !!!")
@@ -115,7 +140,7 @@ const CreateProjectForStudent = () => {
                                         <form className="needs-validation" >
                                             <div className="form-group">
                                                 <label className="form-label">Project Name *</label>
-                                                <input type="text" className="form-control" id="projectname" required />
+                                                <input required type="text" className="form-control" id="projectname" required />
                                                 <div className="invalid-feedback">
                                                 Please provide a template name.
                                                 </div>

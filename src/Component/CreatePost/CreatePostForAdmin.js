@@ -8,6 +8,11 @@ import SideBar from '../Layouts/SideBar'
 const CreatepostForAdmin = () => {
 
     async function CreatePost(){
+        if(document.getElementById("Description").value === ""){
+            alert("Không để trống các trường")
+    }
+    else{
+        if(document.getElementById("file").files[0]){
         let userData = JSON.parse(localStorage.getItem("adminData"))
         let formData = new FormData();
         formData.append("userID" ,userData._id )
@@ -23,6 +28,11 @@ const CreatepostForAdmin = () => {
         if(response.data.success === true){
             window.location.href = '/admin'
         }
+    }
+    else{
+        alert("Không có file đính kèm")
+    }
+    }
     }
     function changeImage(event){
         let image = URL.createObjectURL(event.target.files[0])

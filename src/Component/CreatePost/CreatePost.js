@@ -8,22 +8,35 @@ import SideBar from '../Layouts/SideBar'
 const Createpost = () => {
 
     async function CreatePost(){
-        let userData = JSON.parse(localStorage.getItem("mentorData"))
-        let formData = new FormData();
-        formData.append("userID" ,userData._id )
-        formData.append("userName" , userData.fullname)
-        formData.append("content" , document.getElementById("Description").value)
-        formData.append("image" , userData.image)
-        formData.append("imagePost" , document.getElementById("file").files[0])
-        let response = await axios.post("http://localhost:5000/mentor/create-post" , formData , {
-            headers : {
-                Authorization : `Bearer ${localStorage.getItem("token")}`
-            }
-        })
-        if(response.data.success === true){
-            window.location.href = '/mentor'
+        if(document.getElementById("Description").value === ""){
+                alert("Không để trống các trường")
         }
-    }
+        else{
+              if(document.getElementById("file").files[0]){
+                let userData = JSON.parse(localStorage.getItem("mentorData"))
+                let formData = new FormData();
+                formData.append("userID" ,userData._id )
+                formData.append("userName" , userData.fullname)
+                formData.append("content" , document.getElementById("Description").value)
+                formData.append("image" , userData.image)
+                formData.append("imagePost" , document.getElementById("file").files[0])
+                let response = await axios.post("http://localhost:5000/mentor/create-post" , formData , {
+                    headers : {
+                        Authorization : `Bearer ${localStorage.getItem("token")}`
+                    }
+                })
+                if(response.data.success === true){
+                    window.location.href = '/mentor'
+                }
+              }
+              else{
+                  alert("Không có file đính kèm")
+              }
+                
+            }
+           
+        }
+       
     function changeImage(event){
         let image = URL.createObjectURL(event.target.files[0])
         document.getElementById("image").src = image

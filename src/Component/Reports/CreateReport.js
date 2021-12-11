@@ -57,33 +57,56 @@ const CreateReport = () => {
 
     async function createReport(){
             if(userData.status === "Ok"){
-                let reportData = {}
-                for (let i in reportTemplateData){
-                    reportData[reportTemplateData[i]] = document.getElementById(reportTemplateData[i]).value
+        if(document.getElementById("reportName").value === ""){
+                alert("Không để trống các trường")
+        }
+        else{
+            if(document.getElementById("project").value === "0"){
+                alert("Bạn chưa chọn project !!!")
+            }
+            else{
+                if(document.getElementById("reporttemplate").value === "0"){
+                    alert("Bạn chưa chọn report template !!!")
                 }
-                let formData = new FormData()
-                formData.append("reportName" , document.getElementById("reportName").value)
-                formData.append("reporterID" , userData._id )
-                formData.append("reporterName" , userData.fullname)
-                formData.append("projectID" , document.getElementById("project").value)
-                formData.append("reportTemplateID" , document.getElementById("reporttemplate").value )
-                formData.append("reportData" , JSON.stringify(reportData))
-                    
-                elementInput.forEach((i) => {
-                    formData.append("files" , document.getElementById(`file${i}`).files[0])
-                })
-
-
-                let response = await axios.post(`http://localhost:5000/user/create-report` ,formData ,  {
-                    headers : {
-                        Authorization : `Bearer ${localStorage.getItem("token")}`
+                else{
+                    let reportData = {}
+                    for (let i in reportTemplateData){
+                        reportData[reportTemplateData[i]] = document.getElementById(reportTemplateData[i]).value
                     }
-                })
-    
-                if(response.data.success === true){
-                        alert("Created")
-                        // window.location.href = "/my-report"
+                    let formData = new FormData()
+                    formData.append("reportName" , document.getElementById("reportName").value)
+                    formData.append("reporterID" , userData._id )
+                    formData.append("reporterName" , userData.fullname)
+                    formData.append("projectID" , document.getElementById("project").value)
+                    formData.append("reportTemplateID" , document.getElementById("reporttemplate").value )
+                    formData.append("reportData" , JSON.stringify(reportData))
+                        
+                    elementInput.forEach((i) => {
+                        formData.append("files" , document.getElementById(`file${i}`).files[0])
+                    })
+
+
+                    let response = await axios.post(`http://localhost:5000/user/create-report` ,formData ,  {
+                        headers : {
+                            Authorization : `Bearer ${localStorage.getItem("token")}`
+                        }
+                    })
+
+                    if(response.data.success === true){
+                            alert("Created")
+                            // window.location.href = "/my-report"
+                    }
+                    
+
+
+        
+                
                 }
+       
+                }
+        }
+    
+               
             }
             else{
                 alert("Bạn chưa có project để report !!!")

@@ -4,6 +4,7 @@ import React from "react";
 import "./login.css";
 function Login(props) {
   async function onLogin() {
+    let login = false
     let email = document.getElementById("txtUser");
     let password = document.getElementById("txtPass");
     let role = document.getElementsByName("role");
@@ -55,8 +56,15 @@ function Login(props) {
             ? (window.location.href = "/mentor")
             : (window.location.href = "/admin");
         }
+        login = true
       }
     }
+
+    if(login === false){
+      alert("Bạn chưa nhập role !!!")
+    }
+
+    
   }
 
   return (

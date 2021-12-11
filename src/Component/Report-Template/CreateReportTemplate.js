@@ -72,29 +72,36 @@ const CreateReportTemplate = () => {
     }
 
     async function createReportTemplate(){
-        let listField = []
-        let userData = JSON.parse(localStorage.getItem("mentorData"))
-        for (let i = 0 ; i < elementInput.length ; i++){
-            listField.push(elementInput[i].value)
-        }
-
-        let body = {
-            reportTemplateName : document.getElementById("templateName").value,
-            creatorID : userData._id ,
-            creatorName : userData.fullname ,
-            description : document.getElementById("description").value,
-            field : listField
-        }
-        let response = await axios.post("http://localhost:5000/mentor/create-report-template" , body , {headers : {
-            Authorization : `Bearer ${localStorage.getItem("token")}`
-        }})
-        if(response.data.success === true){
-            console.log(response); 
-            alert("Created")
+        if(document.getElementById("description").value === "" || document.getElementById("templateName").value === ""){
+            alert("Không để trống các trường")
         }
         else{
-            alert("Fail")
+            let listField = []
+            let userData = JSON.parse(localStorage.getItem("mentorData"))
+            for (let i = 0 ; i < elementInput.length ; i++){
+                listField.push(elementInput[i].value)
+            }
+    
+            let body = {
+                reportTemplateName : document.getElementById("templateName").value,
+                creatorID : userData._id ,
+                creatorName : userData.fullname ,
+                description : document.getElementById("description").value,
+                field : listField
+            }
+            let response = await axios.post("http://localhost:5000/mentor/create-report-template" , body , {headers : {
+                Authorization : `Bearer ${localStorage.getItem("token")}`
+            }})
+            if(response.data.success === true){
+                console.log(response); 
+                alert("Created")
+            }
+            else{
+                alert("Fail")
+            }
+       
         }
+        
              
     }
 

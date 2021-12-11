@@ -49,6 +49,16 @@ const MyReportForAdmin = (props) => {
         window.location.href = `http://localhost:3000/admin/report-detail/${reportID}`
 }
 
+   async function ExportExcel(){
+    let fileName = prompt("Nhập tên file")
+    let response = await axios.post(`http://localhost:5000/user/export-excel-report` , {fileName}, {headers : {
+        Authorization : `Bearer ${localStorage.getItem("token")}`
+    }})
+    if(response.data.success === true){
+            window.location.href = `http://localhost:5000/${response.data.link}`
+    }   
+    }
+
     if(Cookies.get("adminID")){
         if(loading === false){
             return (
@@ -66,6 +76,9 @@ const MyReportForAdmin = (props) => {
                             <div className="container-fluid px-4">
                                 <h1 className="mt-4">Report List</h1>
                                 <button onClick={SendMail} className="msg_send_btn" type="button">
+                                <button onClick={ExportExcel} style={{marginRight : "50px"}} className="msg_send_btn" type="button">
+                                <i class="fas fa-download"></i>
+                                </button>
                                         <i className="fa fa-paper-plane-o" aria-hidden="true" />
                                 </button>
                                 <ol className="breadcrumb mb-4">

@@ -95,26 +95,32 @@ const EditReportTemplateForAdmin = () => {
     }
 
     async function updateReportTemplate(){
-        let listField = []
-        for (let i = 0 ; i < elementInput.length ; i++){
-            listField.push(elementInput[i].value)
-        }
-
-        let body = {
-            reportTemplateName : document.getElementById("templateName").value,
-            description : document.getElementById("description").value,
-            field : listField
-        }
-        let response = await axios.put(`http://localhost:5000/mentor/update-report-template/${id}` , body , {headers : {
-            Authorization : `Bearer ${localStorage.getItem("token")}`
-        }})
-        if(response.data.success === true){
-            alert("Updated")
-            window.location.reload()
+        if(document.getElementById("templateName").value === "" || document.getElementById("description").value === ""){
+                    alert("Không để trống các trường")
         }
         else{
-            alert("Fail")
+            let listField = []
+            for (let i = 0 ; i < elementInput.length ; i++){
+                listField.push(elementInput[i].value)
+            }
+    
+            let body = {
+                reportTemplateName : document.getElementById("templateName").value,
+                description : document.getElementById("description").value,
+                field : listField
+            }
+            let response = await axios.put(`http://localhost:5000/mentor/update-report-template/${id}` , body , {headers : {
+                Authorization : `Bearer ${localStorage.getItem("token")}`
+            }})
+            if(response.data.success === true){
+                alert("Updated")
+                window.location.reload()
+            }
+            else{
+                alert("Fail")
+            }
         }
+      
              
     }
 

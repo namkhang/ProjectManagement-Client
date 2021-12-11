@@ -2,7 +2,7 @@ import axios from 'axios';
 import Cookies from 'js-cookie';
 import React, { useEffect, useState } from 'react';
 import Loading from '../Loading/Loading'
-import Navbar from '../Layouts/Navbar';
+import Navbar from '../Layouts/NavbarForAdmin'
 import SideBar from '../Layouts/SideBar';
 import '../Report-Detail/ReportDetail.css'
 import { useParams } from 'react-router';
