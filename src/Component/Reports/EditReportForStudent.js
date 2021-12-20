@@ -34,7 +34,18 @@ const EditReportForStudent = () => {
                             Authorization : `Bearer ${localStorage.getItem("token")}`
                         }
                     })
-                    setProject(responseProject.data.listProject)
+
+                    function FilterProjectByUser(item){
+                        let count = item.member.filter(i => i.userID === Cookies.get("userID"))
+                        if(count.length > 0 ){
+                            return true
+                        }
+                        else{
+                            return false
+                        }
+                    }
+                    let result = responseProject.data.listProject.filter(FilterProjectByUser)
+                    setProject(result)
                     setReportTemplate(responseReportTemplate.data.listReportTemplate)
                     setReportTemplateData(Object.keys(response.data.reportData.reportData))
                     setReport(response.data.reportData)

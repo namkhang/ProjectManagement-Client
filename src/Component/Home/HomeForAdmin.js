@@ -22,7 +22,7 @@ function HomeForAdmin(props) {
                 Authorization : `Bearer ${token}`
             }});
             setLoading(true)
-            setPost(response.data.dataPost)
+            setPost(response.data.dataPost.reverse())
         }
         getData()
     } , [])
@@ -39,7 +39,7 @@ function HomeForAdmin(props) {
                     }
                      socket.emit("create-post-comment" , body)
                      socket.on("done-post-comment" , (data) =>{
-                         setPost(data)
+                         setPost(data.reverse())
                      })
                      document.getElementById(postID).value = ""
              }
@@ -56,7 +56,7 @@ function HomeForAdmin(props) {
             }
              socket.emit("create-post-comment" , body)
              socket.on("done-post-comment" , (data) =>{
-                 setPost(data)
+                 setPost(data.reverse())
              })
              document.getElementById(postID).value = ""
      }
@@ -68,7 +68,7 @@ function HomeForAdmin(props) {
             let response = await axios.post("http://localhost:5000/user/like" , data , {headers :{
                 Authorization : `Bearer ${token}`
             }})
-            setPost(response.data.newPost)
+            setPost(response.data.newPost.reverse())
     }
 
     function toProfile(userID){
@@ -102,7 +102,7 @@ function HomeForAdmin(props) {
                 {i.content}
         </div>
         <div className="Description_img_video mb-3">
-                    <img className="h-100" src={i.imagePost} style={{ border: 'none', overflow: 'hidden' }}/>   
+                    <img className="h-100" src={i.image} style={{ border: 'none', overflow: 'hidden' }}/>   
         </div>
         <span style={{marginLeft : '45px'}} className="User-name__active">{i.like} lượt thích</span>
         <span style={{marginLeft : '100px'}} className="User-name__active">{i.post_comment.length} lượt bình luận</span>

@@ -20,7 +20,7 @@ const MyReport = (props) => {
             Authorization : `Bearer ${localStorage.getItem("token")}`
         }})
         setLoading(true)
-        setReport(response.data.dataReport)
+        setReport(response.data.dataReport.reverse())
     }
     getData()
            

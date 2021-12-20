@@ -94,7 +94,7 @@ const CreateReport = () => {
 
                     if(response.data.success === true){
                             alert("Created")
-                            // window.location.href = "/my-report"
+                            window.location.href = "/my-report"
                     }
                     
 

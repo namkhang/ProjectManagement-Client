@@ -14,49 +14,33 @@ const SideBar = () => {
                             </a>
                             <div className="collapse" id="collapseLayouts" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordion">
                                 <nav className="sb-sidenav-menu-nested nav">
-                                    <a className="nav-link" href="/create-report-template">Create Report Template</a>
+                                    <a className="nav-link" href="/my-report">My Report</a>
                                     <a className="nav-link" href="/create-report">Create Report</a>
                                 </nav>
                             </div>
                             <a className="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#collapsePages" aria-expanded="false" aria-controls="collapsePages">
                                 <div className="sb-nav-link-icon"><i className="fas fa-book-open"></i></div>
-                                Pages
+                                Project
                                 <div className="sb-sidenav-collapse-arrow"><i className="fas fa-angle-down"></i></div>
                             </a>
                             <div className="collapse" id="collapsePages" aria-labelledby="headingTwo" data-bs-parent="#sidenavAccordion">
                                 <nav className="sb-sidenav-menu-nested nav accordion" id="sidenavAccordionPages">
-                                    <a className="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
-                                        Authentication
-                                        <div className="sb-sidenav-collapse-arrow"><i className="fas fa-angle-down"></i></div>
+                                    <a className="nav-link collapsed" href="/create-project" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
+                                        Create Project
+                                        
                                     </a>
-                                    <div className="collapse" id="pagesCollapseAuth" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-                                        <nav className="sb-sidenav-menu-nested nav">
-                                            <a className="nav-link" href="login.html">Login</a>
-                                            <a className="nav-link" href="register.html">Register</a>
-                                            <a className="nav-link" href="password.html">Forgot Password</a>
-                                        </nav>
-                                    </div>
-                                    <a className="nav-link collapsed" href="#" data-bs-toggle="collapse" data-bs-target="#pagesCollapseError" aria-expanded="false" aria-controls="pagesCollapseError">
-                                        Error
-                                        <div className="sb-sidenav-collapse-arrow"><i className="fas fa-angle-down"></i></div>
+                                    <a className="nav-link collapsed" href="/my-project" data-bs-toggle="collapse" data-bs-target="#pagesCollapseAuth" aria-expanded="false" aria-controls="pagesCollapseAuth">
+                                        My Project
+                                       
                                     </a>
-                                    <div className="collapse" id="pagesCollapseError" aria-labelledby="headingOne" data-bs-parent="#sidenavAccordionPages">
-                                        <nav className="sb-sidenav-menu-nested nav">
-                                            <a className="nav-link" href="401.html">401 Page</a>
-                                            <a className="nav-link" href="404.html">404 Page</a>
-                                            <a className="nav-link" href="500.html">500 Page</a>
-                                        </nav>
-                                    </div>
+
+                                  
                                 </nav>
                             </div>
                             <div className="sb-sidenav-menu-heading">Addons</div>
-                            <a className="nav-link" href="charts.html">
-                                <div className="sb-nav-link-icon"><i className="fas fa-chart-area"></i></div>
-                                Charts
-                            </a>
-                            <a className="nav-link" href="tables.html">
+                            <a className="nav-link" href="/chat">
                                 <div className="sb-nav-link-icon"><i className="fas fa-table"></i></div>
-                                Tables
+                                Chat
                             </a>
                         </div>
                     </div>

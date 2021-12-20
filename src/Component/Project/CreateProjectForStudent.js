@@ -59,7 +59,7 @@ const CreateProjectForStudent = () => {
         if(document.getElementById("projectname").value === "" ||   document.getElementById("description").value === ""){
                   alert("Không để trống các trường")     
   }
-    else{
+    else{   
         if(elementInput.length === 0){
        
             alert("Chưa có member nào được thêm")
