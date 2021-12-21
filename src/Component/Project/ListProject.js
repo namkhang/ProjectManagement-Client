@@ -47,7 +47,7 @@ const ListProject = (props) => {
                         <main>
                             <div className="container-fluid px-4">
                                 <h1 className="mt-4">Project List</h1>
-                                <button onClick={ExportExcel} className="msg_send_btn" type="button">
+                                <button style={{marginRight : "35px"}} onClick={ExportExcel} className="msg_send_btn" type="button">
                                         <i class="fas fa-download"></i>
                                 </button>
                                 <ol className="breadcrumb mb-4">

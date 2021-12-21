@@ -75,11 +75,12 @@ const MyReportForAdmin = (props) => {
                         <main>
                             <div className="container-fluid px-4">
                                 <h1 className="mt-4">Report List</h1>
-                                <button onClick={SendMail} className="msg_send_btn" type="button">
-                                <button onClick={ExportExcel} style={{marginRight : "50px"}} className="msg_send_btn" type="button">
+                                
+                                <button onClick={ExportExcel} style={{marginRight : "55px"}} className="msg_send_btn" type="button">
                                 <i class="fas fa-download"></i>
                                 </button>
-                                        <i className="fa fa-paper-plane-o" aria-hidden="true" />
+                                <button onClick={SendMail} className="msg_send_btn mr-3" type="button">
+                                        <i className="fa fa-paper-plane" aria-hidden="true" />
                                 </button>
                                 <ol className="breadcrumb mb-4">
                                     <li className="breadcrumb-item active">Home</li>

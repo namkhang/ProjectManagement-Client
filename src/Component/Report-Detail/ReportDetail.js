@@ -33,9 +33,15 @@ const ReportDetail = () => {
                         Authorization : `Bearer ${localStorage.getItem("token")}`
                     }
                 })
-                setLoading(true)
-                setReport(response.data.reportData)
-                setProject(response2.data.projectData)
+                if(response.data.reportData.reporterID === Cookies.get("userID")){
+                    setLoading(true)
+                    setReport(response.data.reportData)
+                    setProject(response2.data.projectData)
+                }
+                else{
+                    window.location.href = "/"
+                }
+               
         }
         getData()
     } ,[id])

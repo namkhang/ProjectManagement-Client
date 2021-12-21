@@ -18,13 +18,11 @@ const NavbarForMentor = () => {
             <div style={{ width: "50%", margin: "20px auto" }}>
                     <ReactstrapDropdown />
             </div>
-            <form className="d-none d-md-inline-block form-inline ms-auto me-0 me-md-3 my-2 my-md-0">
-                
-            </form>
+            <h8 className='mr-2' style={{color : "white"}}>{JSON.parse(localStorage.getItem("mentorData")).email}</h8>
             <ul className="navbar-nav ms-auto ms-md-0 me-3 me-lg-4">
                 <li className="nav-item dropdown">
                     <a className="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"><i className="fas fa-user fa-fw"></i></a>
-                    <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                    <ul style={{width : "200px"}}  className="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                     <li><a className="dropdown-item" href="/mentor/my-report">My Report</a></li>
                     <li><a className="dropdown-item" href="/mentor/my-project">My Project</a></li>
                     <li><a className="dropdown-item" href="/mentor/my-reporttemplate">My Report Template</a></li>

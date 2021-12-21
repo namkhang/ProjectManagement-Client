@@ -46,7 +46,7 @@ const Example = () => {
           <Input onKeyUp={onSearch} />
           <InputGroupAddon addonType="append">
             <Button>
-              <i className="fa fa-chev" />
+              <i class="fa fa-search" aria-hidden="true"></i>
             </Button>
           </InputGroupAddon>
         </InputGroup>
