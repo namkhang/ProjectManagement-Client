@@ -35,16 +35,19 @@ const CreateProjectForStudent = () => {
 
     function AddField(){
         let newElement = [...elementInput]
-        if(newElement.length === 0){
-            let id = 'field1'
-            newElement.push({id , value : "0"})
-            setElementInput(newElement)
+        if(newElement.length < 5){
+            if(newElement.length === 0){
+                let id = 'field1'
+                newElement.push({id , value : "0"})
+                setElementInput(newElement)
+            }
+            else{
+                let id = `field${parseInt((newElement[newElement.length - 1].id.substring(5))) + 1}`
+                newElement.push({id , value : "0"})
+                setElementInput(newElement)
+            }
         }
-        else{
-            let id = `field${parseInt((newElement[newElement.length - 1].id.substring(5))) + 1}`
-            newElement.push({id , value : "0"})
-            setElementInput(newElement)
-        }
+      
 
     }
 
@@ -115,7 +118,7 @@ const CreateProjectForStudent = () => {
 
     }
 
-    if(Cookies.get("userID")){
+    if(Cookies.get("userID") && JSON.parse(localStorage.getItem("userData")).status === "Pending"){
         if(loading === false){
             return (
                 <Loading />
@@ -155,7 +158,7 @@ const CreateProjectForStudent = () => {
                                                 <select defaultValue="0" id="mentor" className="form-select" aria-label="Default select example">
                                                     <option value="0" disabled>Choose mentor...</option>
                                                     {mentor.map( i2 => 
-                                                            <option id={i2._id} value={i2._id}>{i2.fullname}</option>
+                                                            <option id={i2._id} value={i2._id}>{i2.fullname} - {i2.MSGV}</option>
                                                     )}
                                                 </select>
                                             </div>
@@ -169,9 +172,9 @@ const CreateProjectForStudent = () => {
                                                                     <option value="0" disabled>Choose member...</option>
                                                                     {student.map( i3 => 
                                                                             i3.status === "Ok" ?
-                                                                            <option disabled id={i3._id} value={i3._id}>{i3.fullname}</option>
+                                                                            <option disabled id={i3._id} value={i3._id}>{i3.fullname} - {i3.MSSV}</option>
                                                                             :
-                                                                            <option id={i3._id} value={i3._id}>{i3.fullname}</option>
+                                                                            <option id={i3._id} value={i3._id}>{i3.fullname} - {i3.MSSV} </option>
                                                                     )}
                                                             </select> 
                                                         <div   div className="input-group-append">
@@ -213,7 +216,7 @@ const CreateProjectForStudent = () => {
     }
 }
     else{
-        window.location.href = "/login"
+        window.location.href = "/"
     }
    
 }

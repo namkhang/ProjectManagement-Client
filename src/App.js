@@ -39,6 +39,8 @@ import MyReportTempalteForAdmin from './Component/Report-Template/MyReportTempla
 import EditReportTemplateForAdmin from './Component/Report-Template/EditReportTemplateForAdmin';
 import ListUser from './Component/UserManagement/ListUser';
 import UserDetail from './Component/UserManagement/UserDetail';
+import EditPostForAdmin from './Component/CreatePost/EditPostForAdmin';
+import EditPostForMentor from './Component/CreatePost/EditPostForMentor';
 
 function App() {
   return (
@@ -81,6 +83,9 @@ function App() {
         <Route exact path="/admin/create-project" component={CreateProject} />
         <Route exact path="/admin/list-project" component={ListProject} />
         <Route exact path="/admin/edit-project/:id" component={EditProject} />
+        <Route exact path="/admin/edit-post/:id" component={EditPostForAdmin} />
+        <Route exact path="/mentor/edit-post/:id" component={EditPostForMentor} />
+
       </Switch>
     </div>
   );

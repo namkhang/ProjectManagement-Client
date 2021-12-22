@@ -74,6 +74,7 @@ function HomeForMentor(props) {
   async function Like(postID) {
     let data = {
       postID,
+      userID : Cookies.get("mentorID")
     };
     let response = await axios.post("http://localhost:5000/user/like", data, {
       headers: {
@@ -85,6 +86,10 @@ function HomeForMentor(props) {
 
   function toProfile(userID) {
     window.location.href = `/mentor/profile/${userID}`;
+  }
+
+  function EditPost(id){
+    window.location.href = `/mentor/edit-post/${id}`
   }
 
   if (mentorID) {
@@ -117,7 +122,7 @@ function HomeForMentor(props) {
                   <div className="Description_img_video mb-3">
                     <img
                       className="h-100"
-                      src={i.image}
+                      src={i.imagePost}
                       style={{ border: "none", overflow: "hidden" }}
                     />
                   </div>
@@ -126,7 +131,7 @@ function HomeForMentor(props) {
                       <span
                         className="User-name__active"
                       >
-                        {i.like} lượt thích
+                        {i.like.length} lượt thích
                       </span>
                     </div>
                     <div className="col-4 text-center">
@@ -167,61 +172,18 @@ function HomeForMentor(props) {
                 </div> */}
                     </div>
                     {/* <div className="col-4 text-center Comment-share p-2"> <i class="fa fa-share" aria-hidden="true"></i> like</div> */}
+                    {Cookies.get("mentorID") === i.userID && 
                     <div className="col-4 text-center Comment-share p-2">
-                      {" "}
-                      <div>
-                        {/* Button trigger modal */}
-                        <a data-toggle="modal" data-target="#exampleModal">
-                          <i class="fa fa-share" aria-hidden="true"></i> Chia sẻ
-                        </a>
-                        {/* Modal */}
-                        <div
-                          className="modal fade"
-                          id="exampleModal"
-                          tabIndex={-1}
-                          role="dialog"
-                          aria-labelledby="exampleModalLabel"
-                          aria-hidden="true"
-                        >
-                          <div className="modal-dialog" role="document">
-                            <div className="modal-content">
-                              <div className="modal-header">
-                                <h5
-                                  className="modal-title"
-                                  id="exampleModalLabel"
-                                >
-                                  Modal title
-                                </h5>
-                                <button
-                                  type="button"
-                                  className="close"
-                                  data-dismiss="modal"
-                                  aria-label="Close"
-                                >
-                                  <span aria-hidden="true">×</span>
-                                </button>
-                              </div>
-                              <div className="modal-body">...</div>
-                              <div className="modal-footer">
-                                <button
-                                  type="button"
-                                  className="btn btn-secondary"
-                                  data-dismiss="modal"
-                                >
-                                  Close
-                                </button>
-                                <button
-                                  type="button"
-                                  className="btn btn-primary"
-                                >
-                                  Save changes
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                    {" "}
+                    <div>
+                      {/* Button trigger modal */}
+                      <a data-toggle="modal"  onClick={() => EditPost(i._id)}>
+                        <i class="fa fa-share" aria-hidden="true"></i> Chỉnh sửa
+                      </a>
+     
                     </div>
+                  </div>
+                  }
                   </div>
                   {/* bình luận */}
                   <div>
