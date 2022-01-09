@@ -62,6 +62,7 @@ const EditPostForMentor = () => {
     }
     function changeImage(event){
         let image = URL.createObjectURL(event.target.files[0])
+        console.log(image)
         document.getElementById("image").src = image
         
     }

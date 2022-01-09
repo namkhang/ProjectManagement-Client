@@ -41,6 +41,7 @@ import ListUser from './Component/UserManagement/ListUser';
 import UserDetail from './Component/UserManagement/UserDetail';
 import EditPostForAdmin from './Component/CreatePost/EditPostForAdmin';
 import EditPostForMentor from './Component/CreatePost/EditPostForMentor';
+import Test from './Component/Test';
 
 function App() {
   return (
@@ -85,6 +86,7 @@ function App() {
         <Route exact path="/admin/edit-project/:id" component={EditProject} />
         <Route exact path="/admin/edit-post/:id" component={EditPostForAdmin} />
         <Route exact path="/mentor/edit-post/:id" component={EditPostForMentor} />
+        <Route exact path="/test" component={Test} />
 
       </Switch>
     </div>
